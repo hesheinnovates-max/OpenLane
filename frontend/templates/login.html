@@ -1,0 +1,81 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OpenLane | Login</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/login.js" defer></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="brand">
+            <h1>OpenLane</h1>
+            <p>Local work. Limitless possibility.</p>
+        </header>
+
+        <main class="login-card">
+
+            <h2>Welcome back</h2>
+            <p>Log in to continue your journey.</p>
+
+            <form id="login-form">
+
+                <div class="form-group">
+                    <label for="account-type">I am a</label>
+
+                    <select id="account-type" name="account_type" required>
+                        <option value="job_seeker">Job Seeker</option>
+                        <option value="company">Employer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="identifier">Email or phone number</label>
+
+                    <input
+                        type="text"
+                        id="identifier"
+                        name="identifier"
+                        placeholder="Enter your email or phone number"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit">Log in</button>
+
+                <p id="login-message" role="status"></p>
+
+            </form>
+
+            <p class="register-link">
+                New to OpenLane?
+                <a href="/register">Create an account</a>
+            </p>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+```

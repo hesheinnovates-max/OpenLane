@@ -42,9 +42,10 @@ PAGE = PROJECT_ROOT/"frontend"/'templates'
 
 @app.get("/",response_class=HTMLResponse)
 def root():
-    return (PAGE/"login.html").read_text(encoding="utf-8")
+    return (PAGE/"openlane_homepage.html").read_text(encoding="utf-8")
 
 @app.get("/db-check",response_class=HTMLResponse)
 def db_check(db:Session = Depends(get_db)):
     result = db.execute(text("SELECT 1"))
     return {"database_connected": result.scalar() == 1}
+

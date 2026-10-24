@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My dashboard – Open Lane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F6F8; --card:#FFFFFF; --ink:#17212B; --muted:#5B6877; --line:#DDE2E8;
+  --lane:#1456D9; --lane-soft:#E4ECFB; --go:#1E8E5A; --wait:#B87A00;
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#10161D;--card:#18212B;--ink:#EDF1F5;--muted:#9AA8B7;--line:#2B3744;--lane:#6C9BFF;--lane-soft:#1D2B45;--go:#47C58A;--wait:#E6B04A}
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 var(--body);background:var(--paper);color:var(--ink)}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.2}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lane);outline-offset:2px}
+
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.side{background:var(--card);border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:24px;position:sticky;top:0;height:100vh}
+.brand{font:700 20px var(--head);padding:0 8px}
+.brand span{color:var(--lane)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{padding:9px 12px;border-radius:8px;color:var(--muted);text-decoration:none}
+.nav a:hover{background:var(--paper);color:var(--ink)}
+.nav a[aria-current="page"]{background:var(--lane-soft);color:var(--lane);font-weight:600}
+.who{margin-top:auto;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:13px}
+.who strong{display:block;font-size:14px}
+
+.main{padding:32px clamp(16px,4vw,48px);max-width:1100px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.top h1{font-size:28px}
+.top p{margin:4px 0 0;color:var(--muted)}
+.search{display:flex;gap:8px;flex:1;min-width:240px;max-width:420px}
+.search input{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.btn{background:var(--lane);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+@media (prefers-color-scheme:dark){.btn{color:#0B1220}}
+
+.grid{display:grid;grid-template-columns:1.7fr 1fr;gap:24px}
+@media (max-width:960px){.grid{grid-template-columns:1fr}}
+.col{display:grid;gap:24px;align-content:start;min-width:0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+.panel h2{font-size:18px;margin-bottom:14px}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.panel-head h2{margin:0}
+.panel-head span{color:var(--muted);font-size:13px}
+
+/* application tracker: each application travels along a four-stop lane */
+.app{padding:14px 0;border-bottom:1px solid var(--line)}
+.app:last-child{border:0;padding-bottom:0}
+.app-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.app-top small{color:var(--muted);display:block}
+.track{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:10px}
+.track i{height:8px;border-radius:4px;background:var(--line)}
+.track i.on{background:var(--lane)}
+.track i.done{background:var(--go)}
+.labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px;font-size:12px;color:var(--muted)}
+.labels .now{color:var(--ink);font-weight:600}
+
+.chips{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 14px;cursor:pointer;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.job{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.job h3{font-size:16px}
+.job small{color:var(--muted)}
+.tag{align-self:flex-start;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--lane-soft);color:var(--lane)}
+.job .foot{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.job .btn{padding:6px 14px;font-size:14px}
+.save[aria-pressed="true"]{border-color:var(--lane);color:var(--lane);font-weight:600}
+.empty{color:var(--muted);padding:12px 0}
+
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.list li:last-child{border:0}
+.list small{display:block;color:var(--muted)}
+.list a{color:var(--lane);font-weight:600;text-decoration:none;white-space:nowrap}
+.list a:hover{text-decoration:underline}
+.meter{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0 8px}
+.meter div{height:100%;background:var(--go);width:70%}
+
+@media (max-width:760px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px}
+  .nav{flex-direction:row;flex-wrap:wrap}
+  .who{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand">Open <span>Lane</span></div>
+    <nav class="nav" aria-label="Job seeker navigation">
+      <a href="#" aria-current="page">Overview</a>
+      <a href="#">Find opportunities</a>
+      <a href="#">My applications</a>
+      <a href="#">Saved</a>
+      <a href="#">Skills and courses</a>
+      <a href="#">My profile</a>
+    </nav>
+    <div class="who"><strong id="userName">Your name</strong>Job seeker account</div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1>Hi, <span id="firstName">there</span></h1>
+        <p>You have 3 applications in progress and 2 opportunities closing this week.</p>
+      </div>
+      <form class="search" role="search" onsubmit="return false">
+        <input type="search" id="q" placeholder="Search jobs, internships, learnerships" aria-label="Search opportunities">
+      </form>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <section class="panel" aria-labelledby="recTitle">
+          <div class="panel-head"><h2 id="recTitle">Recommended for you</h2><span id="count"></span></div>
+          <div class="chips" role="group" aria-label="Filter by type">
+            <button class="chip" aria-pressed="true" data-f="all">All</button>
+            <button class="chip" aria-pressed="false" data-f="Job">Jobs</button>
+            <button class="chip" aria-pressed="false" data-f="Internship">Internships</button>
+            <button class="chip" aria-pressed="false" data-f="Learnership">Learnerships</button>
+          </div>
+          <div class="cards" id="cards"></div>
+          <p class="empty" id="empty" hidden>Nothing matches yet. Try a different word or clear the filter.</p>
+        </section>
+
+        <section class="panel" aria-labelledby="appTitle">
+          <div class="panel-head"><h2 id="appTitle">My applications</h2><span>Track each one from applied to offer</span></div>
+          <div class="app">
+            <div class="app-top"><div><strong>Junior web developer</strong><small>Brightpath Digital</small></div><small>Applied 3 days ago</small></div>
+            <div class="track"><i class="done"></i><i class="on"></i><i></i><i></i></div>
+            <div class="labels"><span>Applied</span><span class="now">Viewed</span><span>Interview</span><span>Offer</span></div>
+          </div>
+          <div class="app">
+            <div class="app-top"><div><strong>Marketing intern</strong><small>Sunrise Media</small></div><small>Applied 1 week ago</small></div>
+            <div class="track"><i class="done"></i><i class="done"></i><i class="on"></i><i></i></div>
+            <div class="labels"><span>Applied</span><span>Viewed</span><span class="now">Interview</span><span>Offer</span></div>
+          </div>
+          <div class="app">
+            <div class="app-top"><div><strong>Electrical learnership</strong><small>Kopano Engineering</small></div><small>Applied today</small></div>
+            <div class="track"><i class="on"></i><i></i><i></i><i></i></div>
+            <div class="labels"><span class="now">Applied</span><span>Viewed</span><span>Interview</span><span>Offer</span></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="panel" aria-labelledby="profTitle">
+          <h2 id="profTitle">Profile strength</h2>
+          <strong>70% complete</strong>
+          <div class="meter" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Profile 70% complete"><div></div></div>
+          <small style="color:var(--muted)">Add your CV and two skills to reach 100%. Employers see complete profiles first.</small>
+          <p style="margin:12px 0 0"><button class="btn">Finish profile</button></p>
+        </section>
+
+        <section class="panel" aria-labelledby="skillTitle">
+          <h2 id="skillTitle">Skills to build</h2>
+          <ul class="list">
+            <li><div>HTML and CSS basics<small>Free · 4 hours</small></div><a href="#">Start</a></li>
+            <li><div>Interview preparation<small>Free · 1 hour</small></div><a href="#">Start</a></li>
+            <li><div>Writing a strong CV<small>Free · 45 minutes</small></div><a href="#">Start</a></li>
+          </ul>
+        </section>
+
+        <section class="panel" aria-labelledby="saveTitle">
+          <h2 id="saveTitle">Saved</h2>
+          <ul class="list" id="saved"></ul>
+          <p class="empty" id="savedEmpty">Tap Save on any opportunity to keep it here.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const jobs = [
+  {id:1,title:"Junior web developer",co:"Brightpath Digital",type:"Job",loc:"Remote",close:"Closes in 5 days"},
+  {id:2,title:"Marketing intern",co:"Sunrise Media",type:"Internship",loc:"On site",close:"Closes in 2 days"},
+  {id:3,title:"Electrical learnership",co:"Kopano Engineering",type:"Learnership",loc:"On site",close:"Closes in 12 days"},
+  {id:4,title:"Customer support agent",co:"Nova Telecom",type:"Job",loc:"Hybrid",close:"Closes in 8 days"},
+  {id:5,title:"Graphic design intern",co:"Studio Nine",type:"Internship",loc:"Remote",close:"Closes in 3 days"},
+  {id:6,title:"Retail management learnership",co:"Metro Stores",type:"Learnership",loc:"On site",close:"Closes in 20 days"}
+];
+const saved = new Set();
+let filter = "all", term = "";
+const cards = document.getElementById("cards"), empty = document.getElementById("empty"), count = document.getElementById("count");
+
+function render(){
+  const list = jobs.filter(j => (filter === "all" || j.type === filter) &&
+    (j.title + " " + j.co).toLowerCase().includes(term));
+  cards.innerHTML = "";
+  list.forEach(j => {
+    const el = document.createElement("article");
+    el.className = "job";
+    el.innerHTML = `<span class="tag"></span><h3></h3><small class="co"></small><small class="meta"></small>
+      <div class="foot"><button class="btn">Apply</button><button class="btn ghost save" aria-pressed="false">Save</button></div>`;
+    el.querySelector(".tag").textContent = j.type;
+    el.querySelector("h3").textContent = j.title;
+    el.querySelector(".co").textContent = j.co;
+    el.querySelector(".meta").textContent = j.loc + " – " + j.close;
+    const sv = el.querySelector(".save");
+    const on = saved.has(j.id);
+    sv.setAttribute("aria-pressed", on); sv.textContent = on ? "Saved" : "Save";
+    sv.onclick = () => { saved.has(j.id) ? saved.delete(j.id) : saved.add(j.id); render(); renderSaved(); };
+    // TODO (backend): Apply button -> POST to the job seeker applications endpoint
+    cards.appendChild(el);
+  });
+  empty.hidden = list.length > 0;
+  count.textContent = list.length + (list.length === 1 ? " opportunity" : " opportunities");
+}
+
+function renderSaved(){
+  const ul = document.getElementById("saved");
+  ul.innerHTML = "";
+  jobs.filter(j => saved.has(j.id)).forEach(j => {
+    const li = document.createElement("li");
+    li.innerHTML = `<div><span></span><small></small></div><a href="#">View</a>`;
+    li.querySelector("span").textContent = j.title;
+    li.querySelector("small").textContent = j.co;
+    ul.appendChild(li);
+  });
+  document.getElementById("savedEmpty").hidden = saved.size > 0;
+}
+
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
+  c.setAttribute("aria-pressed", "true"); filter = c.dataset.f; render();
+}));
+document.getElementById("q").addEventListener("input", e => { term = e.target.value.trim().toLowerCase(); render(); });
+
+render(); renderSaved();
+</script>
+</body>
+</html>

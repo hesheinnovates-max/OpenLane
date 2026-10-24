@@ -11,6 +11,13 @@ PAGE = PROJECT_ROOT/".."/".."/"frontend"/'templates'
 def test_job_seekers():
     return {"message":"Job Seeker routes are working"}
 
+@router.get("/job-seeker/dashboard",response_class=HTMLResponse)
+def job_seeker_dashboard():
+    return (PAGE/"job-seeker-dashboard.html").read_text(encoding="utf-8")
+
+
+
+
 # ===========================================================
 # ------------ Job Seeker Functionality ---------------------
 # ===========================================================

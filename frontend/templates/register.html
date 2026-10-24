@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenLane - Sign In</title>
+<style>
+:root {
+--primary-navy: #0F2537;
+--green-accent: #1D8354;
+--green-light: #EDF7F2;
+--gray-border: #E2E8F0;
+--gray-bg: #F8FAFC;
+--text-muted: #64748B;
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+background-color: #F1F5F9;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+padding: 20px 10px;
+}
+
+.container {
+background: #ffffff;
+width: 100%;
+max-width: 440px;
+padding: 36px 28px;
+border-radius: 24px;
+box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Brand Header */
+.brand-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 24px;
+}
+
+.logo-badge {
+width: 42px;
+height: 42px;
+background-color: var(--primary-navy);
+border-radius: 12px;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+}
+
+.logo-lines {
+display: flex;
+gap: 3px;
+transform: skewX(-12deg);
+}
+
+.line {
+width: 4px;
+height: 18px;
+background: white;
+border-radius: 2px;
+}
+
+.line.accent {
+background: #10B981;
+}
+
+.brand-name {
+font-size: 24px;
+font-weight: 800;
+color: var(--primary-navy);
+letter-spacing: -0.5px;
+}
+
+/* Hero Typography */
+.hero-title {
+font-size: 30px;
+font-weight: 800;
+color: var(--primary-navy);
+line-height: 1.15;
+margin-bottom: 8px;
+letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+font-size: 15px;
+color: var(--text-muted);
+margin-bottom: 28px;
+}
+
+.section-title {
+font-size: 15px;
+font-weight: 700;
+color: var(--primary-navy);
+margin-bottom: 14px;
+}
+
+/* Option Cards */
+.role-options {
+display: flex;
+flex-direction: column;
+gap: 12px;
+margin-bottom: 28px;
+}
+
+.role-card {
+display: flex;
+align-items: center;
+padding: 14px 16px;
+border: 1.5px solid var(--gray-border);
+border-radius: 16px;
+cursor: pointer;
+background: white;
+transition: all 0.2s ease;
+}
+
+.role-card.selected {
+border-color: var(--green-accent);
+background-color: var(--green-light);
+}
+
+.icon-box {
+width: 44px;
+height: 44px;
+background: #F1F5F9;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 14px;
+}
+
+.role-card.selected .icon-box {
+background: white;
+}
+
+.role-info {
+flex: 1;
+}
+
+.role-info h4 {
+font-size: 15px;
+font-weight: 700;
+color: var(--primary-navy);
+margin-bottom: 2px;
+}
+
+.role-info p {
+font-size: 13px;
+color: var(--text-muted);
+}
+
+.radio-circle {
+width: 22px;
+height: 22px;
+border-radius: 50%;
+border: 1.5px solid #CBD5E1;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.role-card.selected .radio-circle {
+background-color: var(--green-accent);
+border-color: var(--green-accent);
+}
+
+.check-svg {
+display: none;
+}
+
+.role-card.selected .check-svg {
+display: block;
+}
+
+/* Sub-header */
+.form-header {
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+margin-bottom: 14px;
+}
+
+.member-link {
+font-size: 13px;
+font-weight: 600;
+color: var(--green-accent);
+text-decoration: none;
+}
+
+/* Inputs */
+.input-group {
+margin-bottom: 16px;
+}
+
+.input-label {
+display: block;
+font-size: 13px;
+font-weight: 700;
+color: var(--primary-navy);
+margin-bottom: 6px;
+}
+
+.field-wrapper {
+display: flex;
+align-items: center;
+border: 1.5px solid var(--gray-border);
+border-radius: 16px;
+padding: 12px 16px;
+background: white;
+}
+
+.field-wrapper:focus-within {
+border-color: var(--green-accent);
+}
+
+.field-icon {
+margin-right: 12px;
+display: flex;
+}
+
+.input-wrapper {
+display: flex;
+align-items: center;
+width: 100%;
+}
+
+.prefix {
+font-size: 14px;
+font-weight: 600;
+color: var(--primary-navy);
+margin-right: 8px;
+}
+
+input[type="tel"], input[type="email"] {
+border: none;
+outline: none;
+width: 100%;
+font-size: 14px;
+color: var(--primary-navy);
+}
+
+input::placeholder {
+color: #94A3B8;
+}
+
+/* Divider */
+.divider {
+display: flex;
+align-items: center;
+text-align: center;
+margin: 20px 0;
+color: #94A3B8;
+font-size: 12px;
+}
+
+.divider::before, .divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid #E2E8F0;
+}
+
+.divider span {
+padding: 0 12px;
+}
+
+/* Submit Button */
+.btn-submit {
+width: 100%;
+background-color: var(--green-accent);
+color: white;
+border: none;
+padding: 16px;
+border-radius: 16px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 8px;
+margin-top: 10px;
+}
+
+/* Legal Footer */
+.legal-text {
+text-align: center;
+font-size: 11px;
+color: var(--text-muted);
+margin-top: 20px;
+line-height: 1.5;
+}
+
+.legal-text a {
+color: var(--primary-navy);
+font-weight: 600;
+text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<!-- Logo -->
+<div class="brand-header">
+<div class="logo-badge">
+<div class="logo-lines">
+<div class="line"></div>
+<div class="line accent"></div>
+</div>
+</div>
+<span class="brand-name">OpenLane</span>
+</div>
+
+<!-- Title -->
+<h1 class="hero-title">Local work.<br>Limitless possibility.</h1>
+<p class="hero-subtitle">Earn, learn, and grow. Right in your neighborhood.</p>
+
+<h3 class="section-title">How will you use OpenLane?</h3>
+
+<!-- Role Selection -->
+<div class="role-options">
+<div class="role-card selected" onclick="selectRole(this)">
+<div class="icon-box">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M20 7h-3a2 2 0 0 0-2-2h-6a2 2 0 0 0-2 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+</div>
+<div class="role-info">
+<h4>Job Seeker</h4>
+<p>Find local jobs & learn new skills.</p>
+</div>
+<div class="radio-circle">
+<svg class="check-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+</div>
+</div>
+
+<div class="role-card" onclick="selectRole(this)">
+<div class="icon-box">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</div>
+<div class="role-info">
+<h4>Employer</h4>
+<p>Post jobs & hire local talent.</p>
+</div>
+<div class="radio-circle">
+<svg class="check-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+</div>
+</div>
+</div>
+
+<!-- Sub-header -->
+<div class="form-header">
+<h3 class="section-title" style="margin-bottom:0;">Let's get you started</h3>
+<a href="/login" class="member-link">Already a member?</a>
+</div>
+
+<!-- Phone Number Field -->
+<div class="input-group">
+<label class="input-label">Phone Number</label>
+<div class="field-wrapper">
+<div class="field-icon">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+</div>
+<div class="input-wrapper">
+<span class="prefix">+27</span>
+<input type="tel" placeholder="(015) 000-0000">
+</div>
+</div>
+</div>
+
+<div class="divider"><span>or use email</span></div>
+
+<!-- Email Field -->
+<div class="input-group">
+<label class="input-label">Email</label>
+<div class="field-wrapper">
+<div class="field-icon">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+</div>
+<input type="email" placeholder="you@example.com">
+</div>
+</div>
+
+<!-- Continue Button -->
+<button class="btn-submit">
+&rarr; Continue
+</button>
+
+<!-- Footer Legal -->
+<p class="legal-text">
+By continuing, you agree to our <a href="#">Terms of Service</a><br>and <a href="#">Privacy Policy</a>.
+</p>
+</div>
+
+<script>
+function selectRole(selectedCard) {
+document.querySelectorAll('.role-card').forEach(card => card.classList.remove('selected'));
+selectedCard.classList.add('selected');
+}
+</script>
+</body>
+</html>
+
+
+
+

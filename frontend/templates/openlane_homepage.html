@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OpenLane connects job seekers with opportunities and companies with emerging talent.">
+  <title>OpenLane | Opportunity meets potential</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* OpenLane homepage — responsive styling */
+:root {
+  --navy: #102941;
+  --muted: #5d718a;
+  --green: #07875e;
+  --green-dark: #007f58;
+  --blue: #174b96;
+  --line: #e8eef4;
+  --font: "DM Sans", Arial, sans-serif;
+  --heading: "Manrope", "DM Sans", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--navy); background: #fff; font-family: var(--font); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.site-header { height: 66px; border-bottom: 1px solid #edf1f5; background: rgba(255,255,255,.96); position: relative; z-index: 10; }
+.nav-wrap { width: min(1310px, calc(100% - 80px)); height: 100%; margin: auto; display: flex; align-items: center; gap: 48px; }
+.logo { font-family: var(--heading); font-size: 35px; font-weight: 800; letter-spacing: -2px; white-space: nowrap; }
+.logo span, .logo i { color: var(--green); }
+.logo i { font-style: normal; }
+.main-nav { display: flex; align-items: center; gap: 39px; margin-left: 90px; height: 100%; }
+.main-nav a { height: 100%; display: flex; align-items: center; position: relative; font-size: 13px; font-weight: 500; }
+.main-nav a:hover, .main-nav a.active { color: #0b2035; }
+.main-nav a.active::after { content: ""; position: absolute; height: 2px; width: 38px; bottom: 7px; left: 0; background: var(--green); }
+.tagline { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.menu-toggle { display: none; border: 0; background: transparent; font-size: 25px; color: var(--navy); }
+.hero { background: radial-gradient(ellipse at 70% 55%, #f4f9fc 0%, #fff 66%); overflow: hidden; }
+.hero-inner { width: min(1310px, calc(100% - 80px)); min-height: 395px; margin: auto; display: grid; grid-template-columns: 45% 55%; align-items: stretch; }
+.hero-copy { padding: 49px 0 28px; position: relative; z-index: 2; }
+.eyebrow { display: inline-flex; align-items: center; gap: 9px; background: #e2f7ef; color: #087a58; border-radius: 30px; padding: 8px 13px; font-size: 12px; font-weight: 600; }
+.eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+h1 { font-family: var(--heading); font-size: clamp(42px, 4.45vw, 67px); line-height: 1.02; letter-spacing: -3.5px; margin: 19px 0 22px; font-weight: 800; }
+h1 span { color: var(--green); }
+.hero-description { max-width: 430px; color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; }
+.hero-note { display: flex; align-items: center; gap: 17px; margin-top: 19px; color: var(--muted); font-size: 14px; }
+.hero-note span { display: inline-block; width: 49px; height: 2px; background: var(--green); }
+.hero-visual { position: relative; min-height: 395px; overflow: hidden; }
+.shape { position: absolute; bottom: 5px; height: 82%; width: 43%; }
+.shape-green { left: 9%; background: #bcefe0; border-radius: 90px 30px 60px 100px; }
+.shape-blue { right: 6%; background: #d5e7ff; border-radius: 100px 100px 0 0; }
+.hero-person { position: absolute; bottom: 5px; height: 88%; width: 42%; object-fit: cover; object-position: center top; mix-blend-mode: multiply; }
+.person-woman { left: 12%; border-radius: 48% 48% 0 0; object-position: 50% 20%; }
+.person-man { right: 7%; width: 40%; border-radius: 48% 48% 0 0; object-position: 50% 15%; }
+.floating-card { position: absolute; z-index: 3; background: rgba(255,255,255,.97); border: 1px solid #dce7f1; border-radius: 14px; box-shadow: 0 12px 35px rgba(29,66,104,.08); display: flex; align-items: center; gap: 13px; padding: 15px 16px; min-width: 222px; }
+.career-float { left: 0; bottom: 62px; }
+.team-float { right: -3px; bottom: 60px; }
+.float-icon { display: grid; place-items: center; width: 37px; height: 37px; flex: 0 0 37px; border-radius: 9px; color: white; font-size: 24px; font-weight: 700; }
+.green-icon { background: var(--green); }
+.blue-icon { background: var(--blue); }
+.floating-card strong { display: block; font-size: 12px; margin-bottom: 7px; white-space: nowrap; }
+.floating-card small { display: block; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.float-arrow { color: var(--green); margin-left: auto; font-size: 20px; }
+.blue-arrow { color: var(--blue); }
+.pathways { width: min(1310px, calc(100% - 80px)); margin: 27px auto 27px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.path-card { min-height: 360px; position: relative; overflow: hidden; border-radius: 9px; padding: 21px 35px 25px; border: 1px solid; }
+.job-card { background: linear-gradient(115deg, #f4fcf8, #effaf6); border-color: #d2f2e7; }
+.company-card { background: linear-gradient(115deg, #f5f9ff, #f2f7fd); border-color: #d6e7ff; }
+.path-icon { display: grid; place-items: center; width: 61px; height: 61px; border-radius: 50%; font-size: 36px; font-weight: 700; margin-bottom: 13px; }
+.job-card .path-icon { background: #d2f4e8; color: var(--green); }
+.company-card .path-icon { background: #d9e9ff; color: var(--blue); }
+.card-label { font-size: 11px; letter-spacing: 3px; font-weight: 800; margin: 0 0 5px; }
+.job-card .card-label { color: var(--green); }
+.company-card .card-label { color: var(--blue); }
+.path-card h2 { font-family: var(--heading); font-size: 30px; line-height: 1.1; letter-spacing: -1px; margin: 0 0 9px; }
+.company-card h2 { color: #123f7d; margin-top: 9px; margin-bottom: 12px; }
+.card-description { max-width: 330px; color: var(--muted); font-size: 13px; line-height: 1.55; margin: 0 0 14px; }
+.path-card ul { list-style: none; padding: 0; margin: 0 0 21px; display: grid; gap: 8px; font-size: 12px; position: relative; z-index: 1; }
+.path-card li { display: flex; align-items: center; gap: 10px; }
+.path-card li::before { content: "✓"; display: inline-grid; place-items: center; color: #fff; background: var(--green); font-size: 10px; font-weight: 700; width: 15px; height: 15px; border-radius: 50%; flex: 0 0 15px; }
+.company-card li::before { background: var(--blue); }
+.path-button { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 15px; width: min(363px, 70%); min-height: 42px; border-radius: 7px; color: #fff; font-size: 12px; font-weight: 700; transition: transform .18s, box-shadow .18s; }
+.path-button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(16,41,65,.15); }
+.green-button { background: linear-gradient(100deg, #07895f, #00865b); }
+.blue-button { background: linear-gradient(100deg, #1c4e98, #17468b); }
+.path-button span { font-size: 19px; font-weight: 400; }
+.handwriting { position: absolute; right: 8%; top: 38%; font-family: "DM Sans", cursive; font-style: italic; font-size: 14px; line-height: 1.35; transform: rotate(-8deg); text-align: center; }
+.green-handwriting { color: #087e5d; }
+.blue-handwriting { color: #164d96; top: 34%; right: 10%; }
+.site-footer { border-top: 1px solid #e8eef4; min-height: 65px; padding: 13px max(40px, calc((100% - 1310px)/2)); display: flex; align-items: center; gap: 65px; }
+.footer-logo { font-size: 24px; letter-spacing: -1.3px; }
+.site-footer nav { display: flex; gap: 32px; }
+.site-footer nav a, .site-footer p { font-size: 10px; color: var(--muted); }
+.site-footer p { margin-left: auto; white-space: nowrap; }
+@media (min-width: 1500px) {
+  .hero-inner, .nav-wrap, .pathways { width: min(1310px, calc(100% - 140px)); }
+}
+@media (max-width: 1050px) {
+  .nav-wrap, .hero-inner, .pathways { width: calc(100% - 48px); }
+  .main-nav { margin-left: 20px; gap: 22px; }
+  .tagline { display: none; }
+  .hero-inner { grid-template-columns: 44% 56%; }
+  h1 { font-size: clamp(42px, 5vw, 58px); letter-spacing: -2.5px; }
+  .floating-card { min-width: 190px; padding: 11px; gap: 9px; }
+  .career-float { left: -10px; }
+  .team-float { right: -8px; }
+  .handwriting { display: none; }
+  .path-card { padding-left: 25px; padding-right: 25px; }
+}
+@media (max-width: 720px) {
+  .site-header { height: 66px; }
+  .nav-wrap { width: calc(100% - 36px); justify-content: space-between; gap: 12px; }
+  .logo { font-size: 30px; }
+  .menu-toggle { display: block; cursor: pointer; }
+  .main-nav { display: none; position: absolute; top: 65px; left: 0; right: 0; height: auto; margin: 0; padding: 14px 22px 20px; background: white; border-bottom: 1px solid var(--line); flex-direction: column; align-items: flex-start; gap: 0; box-shadow: 0 12px 20px #1029410d; }
+  .main-nav.open { display: flex; }
+  .main-nav a { height: auto; padding: 12px 0; }
+  .main-nav a.active::after { bottom: 4px; }
+  .hero-inner { width: calc(100% - 36px); display: flex; flex-direction: column; }
+  .hero-copy { padding: 35px 0 10px; }
+  h1 { font-size: clamp(43px, 11vw, 62px); letter-spacing: -2.5px; margin-top: 18px; }
+  .hero-description { font-size: 15px; }
+  .hero-visual { min-height: 300px; margin-top: 0; }
+  .shape { height: 80%; bottom: 3px; }
+  .hero-person { height: 91%; bottom: 3px; }
+  .floating-card { min-width: 0; width: 48%; padding: 10px; gap: 7px; bottom: 18px; }
+  .career-float { left: 0; }
+  .team-float { right: 0; }
+  .float-icon { width: 30px; height: 30px; flex-basis: 30px; font-size: 18px; }
+  .floating-card strong { font-size: 10px; }
+  .floating-card small { font-size: 9px; }
+  .float-arrow { display: none; }
+  .pathways { width: calc(100% - 36px); grid-template-columns: 1fr; gap: 16px; margin: 18px auto 22px; }
+  .path-card { min-height: 350px; padding: 22px 23px; }
+  .path-card h2 { font-size: 29px; }
+  .path-button { width: 100%; }
+  .site-footer { padding: 18px; flex-wrap: wrap; gap: 15px 24px; }
+  .site-footer nav { order: 3; width: 100%; gap: 20px; flex-wrap: wrap; }
+  .site-footer p { margin-left: auto; font-size: 9px; }
+}
+@media (max-width: 390px) {
+  .hero-visual { min-height: 260px; }
+  .floating-card { width: 49%; }
+  .floating-card small { font-size: 8px; }
+  .path-card { padding: 20px 18px; }
+}
+
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="logo" href="/" aria-label="OpenLane homepage">Open<span>Lane</span><i>.</i></a>
+      <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="active" href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <p class="tagline">Connecting people with opportunity.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-dot"></span>Your future starts here</span>
+          <h1>Opportunity<br>meets <span>potential.</span></h1>
+          <p class="hero-description">Whether you're looking for your next opportunity or searching for the right talent, OpenLane helps you take the next step.</p>
+          <div class="hero-note"><span></span>One platform. Two possibilities.</div>
+        </div>
+
+        <div class="hero-visual" aria-label="Job seekers and employers">
+          <div class="shape shape-green"></div>
+          <div class="shape shape-blue"></div>
+          <img class="hero-person person-woman"
+               src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=85"
+               alt="Professional woman smiling">
+          <img class="hero-person person-man"
+               src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=85"
+               alt="Professional man smiling">
+          <div class="floating-card career-float">
+            <span class="float-icon green-icon" aria-hidden="true">♙</span>
+            <div><strong>Build your career</strong><small>Find jobs, internships<br>and learnerships</small></div>
+            <span class="float-arrow">→</span>
+          </div>
+          <div class="floating-card team-float">
+            <span class="float-icon blue-icon" aria-hidden="true">▦</span>
+            <div><strong>Grow your team</strong><small>Post opportunities<br>and find great talent</small></div>
+            <span class="float-arrow blue-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pathways" id="how-it-works" aria-label="Choose your OpenLane path">
+      <article class="path-card job-card" id="about">
+        <div class="path-icon green-icon" aria-hidden="true">▱</div>
+        <p class="card-label">JOB SEEKERS</p>
+        <h2>I'm looking<br>for a job.</h2>
+        <p class="card-description">Discover jobs, internships, learnerships and opportunities that help you build your future.</p>
+        <ul>
+          <li>Explore career opportunities</li>
+          <li>Showcase your skills</li>
+          <li>Take the next step in your career</li>
+        </ul>
+        <a class="path-button green-button" href="/register" title="Seeker sign-in page not built yet">Find Opportunities <span>→</span></a>
+        <p class="handwriting green-handwriting">New skills.<br>Better opportunities.<br>A brighter future.</p>
+      </article>
+
+      <article class="path-card company-card">
+        <div class="path-icon blue-icon" aria-hidden="true">▥</div>
+        <p class="card-label">COMPANIES</p>
+        <h2>I'm hiring.</h2>
+        <p class="card-description">Connect with emerging talent, publish opportunities and find people ready to grow with your company.</p>
+        <ul>
+          <li>Create your company profile</li>
+          <li>Publish jobs and internships</li>
+          <li>Connect with potential candidates</li>
+        </ul>
+        <a class="path-button blue-button" href="/register" title="Company sign-in page not built yet">Find Your Talent <span>→</span></a>
+        <p class="handwriting blue-handwriting">Great teams<br>build great<br>companies.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <a class="logo footer-logo" href="/">Open<span>Lane</span><i>.</i></a>
+    <nav aria-label="Footer navigation">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p>© <span id="year">2026</span> OpenLane. All rights reserved.</p>
+  </footer>
+  <script>
+const menuButton = document.querySelector(".menu-toggle");
+const mainNav = document.querySelector(".main-nav");
+
+if (menuButton && mainNav) {
+  menuButton.addEventListener("click", () => {
+    const isOpen = mainNav.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+  });
+
+  mainNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+const year = document.querySelector("#year");
+if (year) year.textContent = new Date().getFullYear();
+
+</script>
+</body>
+</html>

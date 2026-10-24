@@ -2,7 +2,6 @@ from sqlalchemy import DateTime , Boolean , String , func , Integer ,  Column , 
 
 from app.db.base import Base
 
-
 class Course(Base):
     __tablename__ = "courses"
     id = Column(Integer,primary_key=True)

@@ -41,12 +41,44 @@ def business_register():
     email : str = Form(...)
     phone : str = Form(...)
     password : str = Form(...)
+    db : Session = Depends(get_db)
 
     if not email or not phone:
-        return {"message":"Both Email and Phone required"}
+        return {"error":"Both Email and Phone required"}
 
-    if validate_email(email) and validate_phone(phone) and password_strength(password):
-        pass
+    true_table = [validate_email(email)[0],validate_phone(phone)[0],password_strength(password)[0]]
+    if False in true_table:
+        n = true_table.index(False)
+        if n == 0:
+            return {"error":f"{validate_email(email)[1]}"}
+        elif n == 1:
+            return {"error":f"{validate_phone(phone)[1]}"}
+        else:
+            return {"error":f"{password_strength(password)[1]}"}
+    else:
+        user = db.query(Company).filter_by(Company.business_name,Company.email).first()
+
+        if user:
+            return {"error":"Company exists"}
+        
+        password_hash = password_hasher.hash(password)
+        new_user = Company(
+            business_name=business_name,
+            phone=phone,
+            email=email,
+            password_hash=password_hash,
+        )
+
+        db.add(new_user)
+
+        try:
+            db.commit()
+            db.refresh(new_user)
+        except Exception:
+            db.rollback()
+            raise
+
+        return {"message":"Company added successfully!"}
 
 @router.post("/job-seeker/register")
 def job_seeker_register():
@@ -66,7 +98,7 @@ def job_seeker_register():
             if a == 0:
                 return {"error":f"{validate_email(email)[1]}"}
             else:
-                return {"error":f"{password_strength(password)(phone)[1]}"}
+                return {"error":f"{password_strength(password)[1]}"}
             # No Errors:
         else:
             user = db.query(JobSeeker).filter(JobSeeker.email).first()
@@ -121,4 +153,4 @@ def job_seeker_register():
                 db.rollback()
                 raise
 
-            return {"message":"User registered successfully"}
+            return {"message":"User registered successfully"} 

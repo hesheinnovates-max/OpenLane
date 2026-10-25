@@ -1,7 +1,8 @@
 from pathlib import Path
 from fastapi import APIRouter , Form , Depends
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
-from validations import validate_email, validate_phone, password_strength
+from app.routes.validations import validate_email, validate_phone, password_strength
 
 from app.db.dependencies import get_db
 from app.models.job_seeker import JobSeeker
@@ -10,14 +11,15 @@ from app.models.companies import Company
 from sqlalchemy.orm import Session
 from pwdlib import PasswordHash
 
-
-
 router = APIRouter()
 password_hasher = PasswordHash.recommended()
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 
-PAGE = PROJECT_ROOT/".."/".."/"frontend"/'templates'
+PAGE = PROJECT_ROOT/"frontend"/'templates'
+CSS_DIR = PROJECT_ROOT/"frontend"/'css'
+
+router.mount("/css",StaticFiles(directory=CSS_DIR),name="css")
 
 # ==================================================
 # GET METHODS
@@ -25,11 +27,11 @@ PAGE = PROJECT_ROOT/".."/".."/"frontend"/'templates'
  
 @router.get("/company/register",response_class=HTMLResponse)
 def business_register():
-    return (PAGE/"business_register.html").read_text("utf-8")
+    return (PAGE/"company-register.html").read_text("utf-8")
 
 @router.get("/job-seeker/register",response_class=HTMLResponse)
 def job_seeker_register():
-    return (PAGE/"job_seeker_register.html").read_text("utf-8")
+    return (PAGE/"job-seeker-register.html").read_text("utf-8")
 
 # ===================================================
 # POST METHODS
@@ -78,7 +80,7 @@ def business_register():
             db.rollback()
             raise
 
-        return {"message":"Company added successfully!"}
+        return {"message":"Company registered successfully"}
 
 @router.post("/job-seeker/register")
 def job_seeker_register():

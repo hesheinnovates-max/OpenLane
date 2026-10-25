@@ -1,0 +1,308 @@
+:root {
+    --green: #0a7a4b;
+    --green-dark: #08633d;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --background: #f8fafc;
+    --white: #ffffff;
+}
+
+/* Apply consistent sizing and typography to every element. */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+    color: var(--ink);
+    background: var(--background);
+}
+
+a {
+    color: var(--green);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Shared header and OpenLane branding. */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    padding: 8px 0 24px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.logo {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: var(--white);
+    background: var(--green);
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.top-note {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Main page layout and cards. */
+main {
+    width: min(1000px, 100%);
+    margin: auto;
+    padding: 20px 0 48px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 470px;
+    margin: 0 auto;
+    padding: clamp(26px, 5vw, 42px);
+    border: 1px solid #f1f5f9;
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow:
+        0 10px 25px -5px rgba(0, 0, 0, 0.05),
+        0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+.wide-card {
+    max-width: 780px;
+}
+
+.eyebrow {
+    margin-bottom: 14px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin-bottom: 13px;
+    font-size: clamp(28px, 5vw, 39px);
+    line-height: 1.12;
+    letter-spacing: -1.2px;
+}
+
+.intro {
+    margin-bottom: 25px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* The two account-type choices on index.html. */
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin: 26px 0 22px;
+}
+
+.role-card {
+    display: block;
+    padding: 22px;
+    border: 1.5px solid var(--line);
+    border-radius: 15px;
+    color: var(--ink);
+    background: var(--white);
+    text-align: left;
+    transition:
+        border-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.role-card:hover {
+    border-color: #7eb89b;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.role-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    color: var(--green);
+    background: #eaf5ee;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.role-card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+.role-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* Forms and their fields. */
+.form {
+    display: grid;
+    gap: 17px;
+    margin-top: 25px;
+}
+
+.form-group {
+    display: grid;
+    gap: 8px;
+}
+
+label {
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    min-height: 48px;
+    padding: 13px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 11px;
+    outline: none;
+    color: var(--ink);
+    background: var(--white);
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(10, 122, 75, 0.1);
+}
+
+input::placeholder {
+    color: #94a3b8;
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.btn {
+    width: 100%;
+    min-height: 49px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 11px;
+    color: var(--white);
+    background: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--green-dark);
+}
+
+/* Links below the form and the back-navigation link. */
+.link-row {
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Validation message displayed by js/forms.js. */
+.notice {
+    display: none;
+    padding: 11px 13px;
+    border-radius: 9px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.notice.show {
+    display: block;
+}
+
+.notice.error {
+    color: #9f1239;
+    background: #fff1f2;
+}
+
+/* Small footer shared by all pages. */
+.footer {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    padding: 10px 0 2px;
+    color: #94a3b8;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Adjust the layout for mobile screens. */
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+    }
+
+    .topbar {
+        padding-bottom: 12px;
+    }
+
+    .top-note {
+        display: none;
+    }
+
+    .role-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .role-card {
+        padding: 19px;
+    }
+}

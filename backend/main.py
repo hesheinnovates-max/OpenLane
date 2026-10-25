@@ -2,6 +2,7 @@ from pathlib import Path
 
 from fastapi import FastAPI , Depends
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,13 +37,15 @@ app.include_router(register.router)
 
 # Find project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CSS_DIR = PROJECT_ROOT/"frontend"/'css'
+
+app.mount("/css",StaticFiles(directory=CSS_DIR),name="css")
 
 PAGE = PROJECT_ROOT/"frontend"/'templates'
 
-
 @app.get("/",response_class=HTMLResponse)
 def root():
-    return (PAGE/"openlane_homepage.html").read_text(encoding="utf-8")
+    return (PAGE/"index.html").read_text(encoding="utf-8")
 
 @app.get("/db-check",response_class=HTMLResponse)
 def db_check(db:Session = Depends(get_db)):

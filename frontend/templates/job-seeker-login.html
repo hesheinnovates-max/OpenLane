@@ -1,235 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - OpenLane</title>
-<style>
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-body {
-background-color: #f8fafc;
-color: #0f172a;
-display: flex;
-align-items: center;
-justify-content: center;
-min-height: 100vh;
-padding: 20px;
-}
-
-.login-card {
-background: #ffffff;
-border-radius: 20px;
-padding: 36px 28px;
-width: 100%;
-max-width: 440px;
-box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-border: 1px solid #f1f5f9;
-}
-
-.brand-header {
-display: flex;
-align-items: center;
-gap: 12px;
-margin-bottom: 24px;
-}
-
-.logo-icon {
-width: 40px;
-height: 40px;
-background-color: #0a7a4b;
-border-radius: 10px;
-display: flex;
-align-items: center;
-justify-content: center;
-color: white;
-font-weight: bold;
-font-size: 20px;
-}
-
-.brand-name {
-font-size: 22px;
-font-weight: 800;
-color: #0f172a;
-letter-spacing: -0.5px;
-}
-
-h2 {
-font-size: 20px;
-font-weight: 700;
-color: #0f172a;
-margin-bottom: 24px;
-}
-
-.form-group {
-margin-bottom: 20px;
-}
-
-.form-group label {
-display: block;
-font-size: 14px;
-font-weight: 600;
-color: #0f172a;
-margin-bottom: 8px;
-}
-
-.input-wrapper {
-position: relative;
-display: flex;
-align-items: center;
-}
-
-.input-icon {
-position: absolute;
-left: 14px;
-color: #94a3b8;
-}
-
-.form-group input {
-width: 100%;
-padding: 14px 14px 14px 44px;
-font-size: 15px;
-border: 1.5px solid #e2e8f0;
-border-radius: 12px;
-outline: none;
-transition: all 0.2s ease;
-color: #0f172a;
-}
-
-.form-group input::placeholder {
-color: #94a3b8;
-}
-
-.form-group input:focus {
-border-color: #0a7a4b;
-box-shadow: 0 0 0 4px rgba(10, 122, 75, 0.1);
-}
-
-.btn-submit {
-width: 100%;
-background-color: #0a7a4b;
-color: white;
-border: none;
-padding: 15px;
-border-radius: 12px;
-font-size: 16px;
-font-weight: 600;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-transition: background-color 0.2s ease;
-margin-top: 28px;
-}
-
-.btn-submit:hover {
-background-color: #08633d;
-}
-
-.signup-link {
-margin-top: 20px;
-font-size: 14px;
-color: #64748b;
-text-align: center;
-}
-
-.signup-link a {
-color: #0a7a4b;
-font-weight: 600;
-text-decoration: none;
-}
-
-.signup-link a:hover {
-text-decoration: underline;
-}
-
-.footer-text {
-margin-top: 24px;
-font-size: 12px;
-color: #64748b;
-text-align: center;
-line-height: 1.5;
-}
-
-.footer-text a {
-color: #0f172a;
-font-weight: 600;
-text-decoration: none;
-}
-
-.footer-text a:hover {
-text-decoration: underline;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker login | OpenLane</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="OpenLane home">
+            <span class="logo">//</span>
+            <span>OpenLane</span>
+        </a>
+        <span class="top-note">Job Seeker access</span>
+    </header>
 
-<div class="login-card">
-<!-- Brand Logo -->
-<div class="brand-header">
-<div class="logo-icon">//</div>
-<div class="brand-name">OpenLane</div>
-</div>
+    <main>
+        <section class="auth-card">
+            <a class="back-link" href="/">← Change account type</a>
 
-<h2>Log in</h2>
+            <p class="eyebrow">Job Seeker account</p>
+            <h1>Welcome back</h1>
+            <p class="intro">
+                Log in to explore opportunities and continue building your skills.
+            </p>
 
-<!-- Form -->
-<form href="/job-seeker/login" method="POST">
-<!-- Username Field -->
-<div class="form-group">
-<label id="username" name="username">Username</label>
-<div class="input-wrapper">
-<svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-<circle cx="12" cy="7" r="4"></circle>
-</svg>
-<input type="text" id="username" name="username" placeholder="Enter your username" required>
-</div>
-</div>
+            <form class="form"
+                  action="/job-seeker/login"
+                  method="POST">
+                <div class="form-group">
+                    <label for="identifier">Email or phone number</label>
+                    <input
+                        type="text"
+                        id="identifier"
+                        name="identifier"
+                        autocomplete="username"
+                        placeholder="Email or phone number"
+                        required
+                    >
+                </div>
 
-<!-- Password Field -->
-<div class="form-group">
-<label id="password" name="password">Password</label>
-<div class="input-wrapper">
-<svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-</svg>
-<input type="password" id="password" name="password" placeholder="Enter your password" required>
-</div>
-</div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
 
-<!-- Submit Button -->
-<button type="submit" class="btn-submit">
-<span>Log In</span>
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<line x1="5" y1="12" x2="19" y2="12"></line>
-<polyline points="12 5 19 12 12 19"></polyline>
-</svg>
-</button>
-</form>
+                <button class="btn" type="submit">Log in as Job Seeker</button>
+            </form>
 
-<!-- Account Signup Link -->
-<div class="signup-link">
-Don't have an account? <a href="/register">Create one</a>
-</div>
+            <p class="link-row">
+                New to OpenLane?
+                <a href="/job-seeker/register">Create a Job Seeker account</a>
+            </p>
+        </section>
+    </main>
 
-<!-- Footer Terms -->
-<div class="footer-text">
-By continuing, you agree to our <a href="#">Terms of Service</a><br>
-and <a href="#">Privacy Policy</a>.
-</div>
-</div>
-
-    </body>
+    <footer class="footer">
+        OpenLane · Connecting people with opportunities
+    </footer>
+</body>
 </html>
-
-
-
-

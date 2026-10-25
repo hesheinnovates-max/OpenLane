@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import FastAPI , Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -47,7 +47,7 @@ PAGE = PROJECT_ROOT/"frontend"/'templates'
 def root():
     return (PAGE/"index.html").read_text(encoding="utf-8")
 
-@app.get("/db-check",response_class=HTMLResponse)
+@app.get("/db-check",response_class=JSONResponse)
 def db_check(db:Session = Depends(get_db)):
     result = db.execute(text("SELECT 1"))
     return {"database_connected": result.scalar() == 1}

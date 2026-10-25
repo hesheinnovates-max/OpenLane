@@ -5,7 +5,7 @@ from app.db.base import Base
 class Company(Base):
     __tablename__ = "companies"
     id = Column(Integer,nullable=False,primary_key=True)
-    name = Column(String(255),nullable=False)
+    company_name = Column(String(255),nullable=False)
     description = Column(Text,nullable=True)
     email = Column(String(255),nullable=False,unique = True)
     phone = Column(String(20),nullable=True)

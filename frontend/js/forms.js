@@ -1,61 +1,132 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const forms = document.querySelectorAll("form");
+const companyForm = document.getElementById("company-register-form");
+const jobSeekerForm = document.getElementById("job-seeker-register-form");
 
-    forms.forEach(function (form) {
-        form.addEventListener("submit", function (event) {
-            const errorBox = form.parentElement.querySelector("#form-error");
+function showMessage(element, text, type) {
+    // Cancel any pending message timer.
+    clearTimeout(element.messageTimer);
 
-            if (errorBox) {
-                errorBox.textContent = "";
-                errorBox.classList.remove("show");
-            }
+    // Hide the previous message before replacing it.
+    element.classList.remove("show");
 
-            function showError(message) {
-                if (!errorBox) {
-                    return;
-                }
+    // Wait for the fade-out transition to finish.
+    element.messageTimer = setTimeout(() => {
+        element.textContent = text;
 
-                errorBox.textContent = message;
-                errorBox.classList.add("show");
-            }
+        // Apply the success or error styling.
+        element.className = type;
 
-            // Job Seekers must provide an email address or a phone number.
-            if (form.hasAttribute("data-contact-check")) {
-                const email = form.querySelector('[name="email"]').value.trim();
-                const phone = form.querySelector('[name="phone"]').value.trim();
-
-                if (!email && !phone) {
-                    event.preventDefault();
-                    showError("Please provide an email address or phone number.");
-                    return;
-                }
-            }
-
-            // This is a convenience check. The backend must validate passwords too.
-            if (form.hasAttribute("data-password-check")) {
-                const password = form.querySelector('[name="password"]').value;
-
-                const hasUppercase = /[A-Z]/.test(password);
-                const hasLowercase = /[a-z]/.test(password);
-                const hasNumber = /[0-9]/.test(password);
-                const hasSpecialCharacter = /[^a-zA-Z0-9]/.test(password);
-                const hasMinimumLength = password.length >= 12;
-
-                if (
-                    !hasMinimumLength ||
-                    !hasUppercase ||
-                    !hasLowercase ||
-                    !hasNumber ||
-                    !hasSpecialCharacter
-                ) {
-                    event.preventDefault();
-
-                    showError(
-                        "Use at least 12 characters, including uppercase, lowercase, " +
-                        "a number, and a special character."
-                    );
-                }
-            }
+        // Make the message visible and animate it.
+        requestAnimationFrame(() => {
+            element.classList.add("show");
         });
-    });
-});
+
+        // Hide the message after five seconds.
+        element.messageTimer = setTimeout(() => {
+            element.classList.remove("show");
+        }, 5000);
+
+    }, 350);
+}
+
+
+/*
+ * Handle registration for either form.
+ */
+async function handleRegistration(event) {
+    // Stop the browser from navigating to the JSON response.
+    event.preventDefault();
+
+    const form = event.currentTarget;
+
+    // Find the message element inside this specific form.
+    const message = form.querySelector("#form-message");
+
+    const submitButton = form.querySelector(
+        'button[type="submit"]'
+    );
+
+    if (!message || !submitButton) {
+        console.error(
+            "Registration form is missing its message element or submit button."
+        );
+        return;
+    }
+
+    // Prevent repeated submissions while the request is processing.
+    submitButton.disabled = true;
+
+    const originalButtonText = submitButton.textContent;
+
+    submitButton.textContent = "Creating account...";
+
+    // Clear any previous message.
+    clearTimeout(message.messageTimer);
+    clearTimeout(message.hideTimer);
+
+    message.classList.remove("show");
+    message.textContent = "";
+
+    try {
+        // Send the form data to the FastAPI endpoint.
+        const response = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form)
+        });
+
+        // Read the JSON returned by FastAPI.
+        const result = await response.json();
+
+        if (response.ok) {
+            showMessage(
+                message,
+                result.message || "Registration successful.",
+                "success"
+            );
+
+            // Clear the form after successful registration.
+            form.reset();
+
+        } else {
+            // Display backend validation errors, including HTTP 409.
+            showMessage(
+                message,
+                result.detail || "Registration failed. Please try again.",
+                "error"
+            );
+        }
+
+    } catch (error) {
+        console.error("Registration request failed:", error);
+
+        showMessage(
+            message,
+            "Could not contact the server. Please try again.",
+            "error"
+        );
+
+    } finally {
+        // Re-enable the button whether the request succeeds or fails.
+        submitButton.disabled = false;
+
+        submitButton.textContent = originalButtonText;
+    }
+}
+
+
+/*
+ * Attach the handler only to forms that exist on the current page.
+ */
+if (jobSeekerForm) {
+    jobSeekerForm.addEventListener(
+        "submit",
+        handleRegistration
+    );
+}
+
+if (companyForm) {
+    companyForm.addEventListener(
+        "submit",
+        handleRegistration
+    );
+}
+

@@ -28,6 +28,7 @@
             <div class="notice error" id="form-error" role="alert"></div>
 
             <form class="form"
+                  id="job-seeker-register-form"
                   action="/job-seeker/register"
                   method="POST"
                   data-contact-check
@@ -91,6 +92,12 @@
                     </p>
                 </div>
 
+                <div
+                    id="form-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
                 <button class="btn" type="submit">Create Job Seeker account</button>
             </form>
 
@@ -103,6 +110,6 @@
     <footer class="footer">
         OpenLane · Connecting people with opportunities
     </footer>
-    <script src="js/forms.js"></script>
+    <script src="/js/forms.js"></script>
 </body>
 </html>

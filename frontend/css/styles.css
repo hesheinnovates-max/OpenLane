@@ -306,3 +306,31 @@ input::placeholder {
         padding: 19px;
     }
 }
+
+/* Registration feedback message */
+
+#form-message {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+    margin-top: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+#form-message.show {
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 14px;
+    max-height: 100px;
+}
+
+#form-message.success {
+    color: #218838;
+}
+
+#form-message.error {
+    color: #dc3545;
+}

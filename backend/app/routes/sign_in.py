@@ -2,7 +2,7 @@ from pathlib import Path
 from fastapi import APIRouter , Form , Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
-from app.routes.validations import validate_email, validate_phone, password_strength
+from app.routes.validations import validate_the_email, validate_phone, password_strength
 
 from app.db.dependencies import get_db
 from app.models.job_seeker import JobSeeker
@@ -20,6 +20,11 @@ PAGE = PROJECT_ROOT/"frontend"/'templates'
 CSS_DIR = PROJECT_ROOT/"frontend"/'css'
 
 router.mount("/css",StaticFiles(directory=CSS_DIR),name="css")
+# Find the frontend JavaScript directory
+JS_DIR = PROJECT_ROOT / "frontend" / "js"
+
+# Serve JavaScript files
+router.mount("/js",StaticFiles(directory=JS_DIR),name="js")
 
 @router.get("/job-seeker/login",response_class=HTMLResponse)
 def job_seeker_login():

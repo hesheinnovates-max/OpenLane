@@ -9,99 +9,82 @@
 <body>
     <header class="topbar">
         <a class="brand" href="/" aria-label="OpenLane home">
-            <span class="logo">//</span>
-            <span>OpenLane</span>
+            <span class="logo">//</span><span>OpenLane</span>
         </a>
         <span class="top-note">Join OpenLane</span>
     </header>
-
     <main>
         <section class="auth-card">
             <a class="back-link" href="/company/login">← Back to company login</a>
-
             <p class="eyebrow">Company registration</p>
             <h1>Create your company account</h1>
-            <p class="intro">
-                Set up your account to start sharing opportunities with the OpenLane community.
-            </p>
-
+            <p class="intro">Set up your account to start sharing opportunities with the OpenLane community.</p>
             <div class="notice error" id="form-error" role="alert"></div>
-
-            <form class="form"
-                  id="company-register-form"
-                  action="/company/register"
-                  method="POST"
-                  data-password-check>
+            <form class="form" id="company-register-form" action="/company/register" method="POST" data-ajax-submit data-password-check>
                 <div class="form-group">
                     <label for="company_name">Company name</label>
-                    <input
-                        type="text"
-                        id="company_name"
-                        name="company_name"
-                        autocomplete="organization"
-                        placeholder="Enter your company name"
-                        required
-                    >
+                    <input type="text" id="company_name" name="company_name" autocomplete="organization" placeholder="Enter your company name" required>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Company email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        autocomplete="email"
-                        placeholder="name@company.com"
-                        required
-                    >
+                    <input type="email" id="email" name="email" autocomplete="email" placeholder="name@company.com" required>
                 </div>
-
                 <div class="form-group">
                     <label for="phone">Phone number</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        autocomplete="tel"
-                        placeholder="e.g. 082 123 4567"
-                        required
-                    >
+                    <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="e.g. 082 123 4567" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        autocomplete="new-password"
-                        minlength="12"
-                        placeholder="Create a strong password"
-                        required
-                    >
-                    <p class="hint">
-                        Use at least 12 characters, including uppercase, lowercase,
-                        a number, and a special character.
-                    </p>
+                <div class="form-group password-group">
+                    <div class="password-label-row">
+                        <label for="password">Password</label>
+                        <span class="password-counter" data-password-counter>0 / 12+ chars</span>
+                    </div>
+                    <div class="password-input-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            autocomplete="new-password"
+                            minlength="12"
+                            placeholder="Create a strong password"
+                            data-password-field
+                            required
+                        >
+                        <button class="password-toggle" type="button" data-toggle-password="password" aria-label="Show password">Show</button>
+                    </div>
+                    <div class="password-strength-track" aria-hidden="true">
+                        <div class="password-strength-fill" data-password-strength></div>
+                    </div>
+                    <div class="password-requirements" aria-label="Password requirements">
+                        <div class="password-requirement" data-requirement="length">At least 12 characters</div>
+                        <div class="password-requirement" data-requirement="uppercase">At least one uppercase letter</div>
+                        <div class="password-requirement" data-requirement="lowercase">At least one lowercase letter</div>
+                        <div class="password-requirement" data-requirement="number">At least one number</div>
+                        <div class="password-requirement" data-requirement="special">At least one special character</div>
+                    </div>
                 </div>
-
-                <div
-                    id="form-message"
-                    role="alert"
-                    aria-live="polite"
-                ></div>
+                <div class="form-group password-group">
+                    <label for="confirm_password">Confirm password</label>
+                    <div class="password-input-wrap">
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            autocomplete="new-password"
+                            placeholder="Enter the password again"
+                            data-confirm-password
+                            required
+                        >
+                        <button class="password-toggle" type="button" data-toggle-password="confirm_password" aria-label="Show confirmation password">Show</button>
+                    </div>
+                    <p class="password-inline-error" data-password-match-error>Passwords do not match.</p>
+                </div>
+                <div id="form-message" role="alert" aria-live="polite"></div>
                 <button class="btn" type="submit">Create Company account</button>
             </form>
-
-            <p class="link-row">
-                Already registered? <a href="/company/login">Log in</a>
-            </p>
+            <p class="link-row">Already registered? <a href="/company/login">Log in</a></p>
         </section>
     </main>
-
-    <footer class="footer">
-        OpenLane · Connecting people with opportunities
-    </footer>
+    <footer class="footer">OpenLane · Connecting people with opportunities</footer>
     <script src="/js/forms.js"></script>
 </body>
 </html>

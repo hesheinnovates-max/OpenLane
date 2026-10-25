@@ -1,5 +1,5 @@
 from pathlib import Path
-from fastapi import APIRouter , Form , Depends
+from fastapi import APIRouter , Form , Depends , HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from app.routes.validations import validate_the_email, validate_phone, password_strength
@@ -38,4 +38,124 @@ def company_login():
 # --------- Sign In Functionality ---------------------------
 # ===========================================================
 
+@router.post("/company/login")
+def company_login(identifier : str = Form(...),
+    password: str = Form(...),
+    db : Session = Depends(get_db)):
+
+    identifier = identifier.strip()
+    password = password.strip()
+
+    email = ""
+    phone = ""
+    if "@" in identifier:
+        email = identifier
+        validate = validate_the_email(email)
+        if len(validate) == 2:
+            raise HTTPException(
+            status_code=409,
+            detail= validate[1]
+            )
+    else:
+        phone = identifier
+        validate = validate_phone(phone)
+        if len(validate) == 2:
+            raise HTTPException(
+            status_code=409,
+            detail= validate[1]
+            )
+
+    if phone:
+        user_data = db.query(Company).filter(Company.phone == phone).first()
+        if not(user_data):
+            raise HTTPException (
+                status_code=409,
+                detail = "No such user , create an account"
+            )
+        else:
+            password_hash = password_hasher.hash(password)
+            if password_hash == user_data.password_hash:
+                return {"message":"Success"}
+            else:
+                raise HTTPException (
+                status_code=409,
+                detail = "Incorrect logins"
+            )   
+    else:
+
+        user_data = db.query(Company).filter(Company.email == email).first()
+        if not(user_data):
+            raise HTTPException (
+                status_code=409,
+                detail = "No such user , create an account"
+            )
+        else:
+            password_hash = password_hasher.hash(password)
+            if password_hash == user_data.password_hash:
+                return {"message":"Success"}
+            else:
+                raise HTTPException (
+                status_code=409,
+                detail = "Incorrect logins"
+                )
+            
+@router.post("/job-seeker/login")
+def job_seeker_login(identifier : str = Form(...),
+    password: str = Form(...),
+    db : Session = Depends(get_db)):
+
+    identifier = identifier.strip()
+    password = password.strip()
+
+    email = ""
+    phone = ""
+    if "@" in identifier:
+        email = identifier
+        validate = validate_the_email(email)
+        if len(validate) == 2:
+            raise HTTPException(
+            status_code=409,
+            detail= validate[1]
+            )
+    else:
+        phone = identifier
+        validate = validate_phone(phone)
+        if len(validate) == 2:
+            raise HTTPException(
+            status_code=409,
+            detail= validate[1]
+            )
+        
+    if phone:
+        user_data = db.query(JobSeeker).filter(JobSeeker.phone == phone).first()
+        if not(user_data):
+            raise HTTPException (
+                status_code=409,
+                detail = "No such user , create an account"
+            )
+        else:
+            password_hash = password_hasher.hash(password)
+            if password_hash == user_data.password_hash:
+                return {"message":"Success"}
+            else:
+                raise HTTPException (
+                status_code=409,
+                detail = "Incorrect logins"
+            )   
+    else:
+        user_data = db.query(JobSeeker).filter(JobSeeker.email == email).first()
+        if not(user_data):
+            raise HTTPException (
+                status_code=409,
+                detail = "No such user , create an account"
+            )
+        else:
+            password_hash = password_hasher.hash(password)
+            if password_hash == user_data.password_hash:
+                return {"message":"Success"}
+            else:
+                raise HTTPException (
+                status_code=409,
+                detail = "Incorrect logins"
+                )
 

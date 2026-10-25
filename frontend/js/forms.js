@@ -2,25 +2,19 @@ const companyForm = document.getElementById("company-register-form");
 const jobSeekerForm = document.getElementById("job-seeker-register-form");
 
 function showMessage(element, text, type) {
-    // Cancel any pending message timer.
     clearTimeout(element.messageTimer);
 
-    // Hide the previous message before replacing it.
     element.classList.remove("show");
 
-    // Wait for the fade-out transition to finish.
     element.messageTimer = setTimeout(() => {
         element.textContent = text;
 
-        // Apply the success or error styling.
         element.className = type;
 
-        // Make the message visible and animate it.
         requestAnimationFrame(() => {
             element.classList.add("show");
         });
 
-        // Hide the message after five seconds.
         element.messageTimer = setTimeout(() => {
             element.classList.remove("show");
         }, 5000);
@@ -29,16 +23,11 @@ function showMessage(element, text, type) {
 }
 
 
-/*
- * Handle registration for either form.
- */
 async function handleRegistration(event) {
-    // Stop the browser from navigating to the JSON response.
     event.preventDefault();
 
     const form = event.currentTarget;
 
-    // Find the message element inside this specific form.
     const message = form.querySelector("#form-message");
 
     const submitButton = form.querySelector(
@@ -52,14 +41,12 @@ async function handleRegistration(event) {
         return;
     }
 
-    // Prevent repeated submissions while the request is processing.
     submitButton.disabled = true;
 
     const originalButtonText = submitButton.textContent;
 
     submitButton.textContent = "Creating account...";
 
-    // Clear any previous message.
     clearTimeout(message.messageTimer);
     clearTimeout(message.hideTimer);
 
@@ -67,13 +54,11 @@ async function handleRegistration(event) {
     message.textContent = "";
 
     try {
-        // Send the form data to the FastAPI endpoint.
         const response = await fetch(form.action, {
             method: "POST",
             body: new FormData(form)
         });
 
-        // Read the JSON returned by FastAPI.
         const result = await response.json();
 
         if (response.ok) {
@@ -83,11 +68,9 @@ async function handleRegistration(event) {
                 "success"
             );
 
-            // Clear the form after successful registration.
             form.reset();
 
         } else {
-            // Display backend validation errors, including HTTP 409.
             showMessage(
                 message,
                 result.detail || "Registration failed. Please try again.",
@@ -105,17 +88,12 @@ async function handleRegistration(event) {
         );
 
     } finally {
-        // Re-enable the button whether the request succeeds or fails.
         submitButton.disabled = false;
 
         submitButton.textContent = originalButtonText;
     }
 }
 
-
-/*
- * Attach the handler only to forms that exist on the current page.
- */
 if (jobSeekerForm) {
     jobSeekerForm.addEventListener(
         "submit",

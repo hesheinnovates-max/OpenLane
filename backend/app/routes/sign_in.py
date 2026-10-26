@@ -9,7 +9,7 @@ from app.models.job_seeker import JobSeeker
 from app.models.companies import Company
 from app.models.reset_password import PasswordReset , RESET_CODE_MINUTES , MAX_RESET_ATTEMPTS
 from app.services.auth import login_response , clear_session , read_session , ROLE_COMPANY , ROLE_JOB_SEEKER
-from app.services.notify import send_reset_code , show_reset_code
+from app.services.notify import send_reset_code , show_reset_code , email_configured
 
 from sqlalchemy import func , or_ , literal_column
 from sqlalchemy.orm import Session
@@ -111,6 +111,11 @@ def split_detail(detail):
         )
     return "" , normalize_phone(detail)
 
+def mask_email(email):
+    # Show where the code went without showing the full address , e.g. th***@gmail.com
+    name , _ , domain = email.partition("@")
+    return f"{name[:2]}***@{domain}"
+
 def check_account_type(account_type):
     account_type = account_type.strip().replace("-","_")
     if account_type not in ACCOUNT_TYPES:
@@ -167,11 +172,24 @@ def forgot_password(detail : str = Form(...),
         db.rollback()
         raise
 
-    sent_by_email = send_reset_code(email or phone,reset_code)
+    # Always send to the email saved on the account , even if the user typed their phone number
+    send_to = user.email or ""
+    sent_by_email = send_reset_code(send_to,reset_code)
 
-    message = "A reset code has been sent. It expires in 5 minutes."
-    if not sent_by_email:
-        message = "A reset code has been created. It expires in 5 minutes."
+    if email_configured() and not show_reset_code() and not sent_by_email:
+        if not send_to:
+            raise HTTPException (
+                status_code=409,
+                detail = "This account has no email address, so we cannot send a reset code. Please contact OpenLane support."
+            )
+        raise HTTPException (
+            status_code=503,
+            detail = "We could not send the reset email right now. Please try again in a few minutes."
+        )
+
+    message = "A reset code has been created. It expires in 5 minutes."
+    if sent_by_email:
+        message = f"A reset code has been sent to {mask_email(send_to)}. It expires in 5 minutes."
     if show_reset_code():
         message += f" (Development mode code: {reset_code})"
 

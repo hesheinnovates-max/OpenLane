@@ -1,58 +1,29 @@
-OpenLane authentication pages
+OpenLane frontend
 
-Files
------
-index.html
-    Opening page where the user chooses Job Seeker or Company.
+Pages are served by the FastAPI backend (run uvicorn from the backend folder and open
+http://127.0.0.1:8000). Opening the HTML files directly will not work, they need the API.
 
-company-login.html
-    Company login using email/phone and password.
+templates/
+    index.html                 Choose Job Seeker or Company
+    job-seeker-login.html      Login (email or phone + password)
+    job-seeker-register.html   Full name, email OR phone, password
+    company-login.html         Login (email or phone + password)
+    company-register.html      Company name, email, phone, password
+    token-account.html         Forgot password: request a reset code
+    reset-password.html        Enter code + new password
+    job-seeker-dashboard.html  Learning progress, skill catalogue, jobs, applications, profile
+    company-dashboard.html     Overview, job listings, post/edit job, applications, profile
+    jobs.html                  Public job listings (no login needed to browse)
+    not-found.html             404 page
 
-job-seeker-login.html
-    Job Seeker login using email/phone and password.
+css/styles.css                 Shared design for every page (desktop and phone)
 
-company-register.html
-    Company name, email, phone, and password.
+js/forms.js                    Login / register / reset forms (validation, messages, redirects)
+js/app.js                      Shared helpers: API calls, toasts, tabs, modals, progress bars
+js/jobs-shared.js              Job cards, job details and apply form
+js/company-dashboard.js        Company dashboard
+js/job-seeker-dashboard.js     Job Seeker dashboard
+js/jobs.js                     Public jobs page
 
-job-seeker-register.html
-    Full name, email OR phone, and password.
-
-css/styles.css
-    Shared styles used by all five pages.
-
-js/forms.js
-    Browser-side checks for contact details and password requirements.
-
-
-Preview the pages
------------------
-1. Extract this folder into your frontend project.
-2. Open index.html using VS Code Live Server.
-3. Choose an account type and follow the login/register links.
-
-
-Backend integration notes
--------------------------
-The forms submit regular HTML form data to these routes:
-
-    POST /job-seekers/register
-    POST /job-seekers/login
-    POST /companies/register
-    POST /companies/login
-
-Login forms send fields named `identifier` and `password`. The backend should
-accept `identifier` and determine whether it represents an email or phone.
-
-Company registration sends `company_name`, `email`, `phone`, and `password`.
-If the SQLAlchemy Company model calls the name field `name`, map `company_name`
-to that model field in the backend route.
-
-Job Seeker registration sends `full_name`, `email`, `phone`, and `password`.
-The backend model and route must support email OR phone and require at least one.
-
-A regular HTML form expects a browser-friendly response or redirect. If a route
-returns JSON, the browser will display that JSON response. JavaScript fetch can
-be added later if you want the page to display API responses without navigating.
-
-Browser-side checks are for convenience only. The backend must validate inputs
-and hash passwords before saving accounts.
+Forms send normal FormData. Browser checks are only for convenience; the backend
+validates everything again, hashes passwords and checks who owns each record.

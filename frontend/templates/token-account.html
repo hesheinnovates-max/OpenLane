@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot password | OpenLane</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="OpenLane home">
+            <span class="logo">//</span><span>OpenLane</span>
+        </a>
+        <span class="top-note">Account security</span>
+    </header>
+    <main>
+        <section class="auth-card">
+            <a class="back-link" href="/" data-back-to-login>← Back to log in</a>
+            <p class="eyebrow">Account security</p>
+            <h1>Forgot your password?</h1>
+            <p class="intro">Enter the email or phone number on your account. We will create a 6-digit reset code that is valid for 5 minutes.</p>
+            <div class="notice error" id="form-error" role="alert"></div>
+            <form class="form" id="forgot-password-form" action="/forgot-password" method="POST" data-ajax-submit>
+                <div class="form-group">
+                    <label for="account_type">Account type</label>
+                    <select id="account_type" name="account_type" data-prefill="type">
+                        <option value="job_seeker">Job Seeker</option>
+                        <option value="company">Company</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="detail">Account email or phone number</label>
+                    <input type="text" id="detail" name="detail" autocomplete="username" placeholder="Enter your account email or phone" data-prefill="detail" required>
+                </div>
+                <div id="form-message" role="alert" aria-live="polite"></div>
+                <button class="btn" type="submit">Send reset code</button>
+            </form>
+            <p class="link-row">Already have a code? <a href="/password-reset" data-keep-query>Reset your password</a></p>
+        </section>
+    </main>
+    <footer class="footer">OpenLane · Connecting people with opportunities</footer>
+    <script src="/js/forms.js"></script>
+</body>
+</html>

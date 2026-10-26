@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My dashboard | OpenLane</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/job-seeker/dashboard" aria-label="OpenLane dashboard">
+            <span class="logo">//</span>
+            <span>OpenLane</span>
+        </a>
+        <nav class="top-actions" aria-label="Account">
+            <span class="top-user" id="top-name">Job Seeker</span>
+            <a class="top-link" href="/logout">Log out</a>
+        </nav>
+    </header>
+
+    <main class="dash">
+        <div class="dash-header">
+            <div>
+                <p class="eyebrow">Job Seeker dashboard</p>
+                <h1 id="welcome">Welcome back</h1>
+                <p class="intro">Choose a skill → learn and practise → track progress → find work that fits.</p>
+            </div>
+            <button class="btn btn-inline" type="button" data-go="jobs">Find jobs</button>
+        </div>
+
+        <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+            <button class="tab" type="button" role="tab" data-tab="learning">My learning <span class="tab-count" id="count-skills">0</span></button>
+            <button class="tab" type="button" role="tab" data-tab="catalogue">Skill catalogue</button>
+            <button class="tab" type="button" role="tab" data-tab="jobs">Find jobs</button>
+            <button class="tab" type="button" role="tab" data-tab="applications">My applications <span class="tab-count" id="count-applications">0</span></button>
+            <button class="tab" type="button" role="tab" data-tab="profile">Profile</button>
+        </nav>
+
+        <!-- ================= My learning ================= -->
+        <section class="panel" id="panel-learning" role="tabpanel">
+            <div class="split">
+                <div class="card overall-card">
+                    <div class="card-title" style="margin-bottom:0">
+                        <div>
+                            <h2>Overall progress</h2>
+                            <p id="overall-formula">Average across your selected skills</p>
+                        </div>
+                    </div>
+                    <div class="overall-number" id="overall-number">–</div>
+                    <div id="overall-bar"></div>
+                    <div class="legend" id="overall-legend"></div>
+                    <p class="small muted">Progress is tracked by the learning steps you tick off. It shows your activity on OpenLane, it is not an accredited certificate.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="margin-bottom:10px">
+                        <div>
+                            <h2>Your next step</h2>
+                            <p>Pick up where you left off.</p>
+                        </div>
+                    </div>
+                    <div id="next-step"></div>
+                </div>
+            </div>
+
+            <div class="card section-gap">
+                <div class="card-title">
+                    <div>
+                        <h2>My skills</h2>
+                        <p>Grouped by status. Open a skill to tick off its learning steps.</p>
+                    </div>
+                    <button class="btn btn-small btn-secondary" type="button" data-go="catalogue">+ Add skills</button>
+                </div>
+                <div id="my-skills"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Catalogue ================= -->
+        <section class="panel" id="panel-catalogue" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2>Skill catalogue</h2>
+                        <p>Choose digital skills to learn. Each skill has steps that define when it is complete.</p>
+                    </div>
+                </div>
+                <div class="filters" style="grid-template-columns:2fr 1fr">
+                    <input type="search" id="skill-search" placeholder="Search skills" aria-label="Search skills">
+                    <select id="skill-category" aria-label="Filter by category">
+                        <option value="">All categories</option>
+                    </select>
+                </div>
+                <div class="grid-cards" id="catalogue"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Jobs ================= -->
+        <section class="panel" id="panel-jobs" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2>Find jobs</h2>
+                        <p>Read the requirements and compare them with your skills before you apply.</p>
+                    </div>
+                </div>
+                <div class="filters">
+                    <input type="search" id="job-search" placeholder="Search title, company or skill" aria-label="Search jobs">
+                    <select id="job-type-filter" aria-label="Filter by job type">
+                        <option value="">All job types</option>
+                    </select>
+                    <input type="search" id="job-location-filter" placeholder="Location" aria-label="Filter by location">
+                </div>
+                <div class="list" id="jobs-list"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Applications ================= -->
+        <section class="panel" id="panel-applications" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2>My applications</h2>
+                        <p>Follow the status of the jobs you applied for.</p>
+                    </div>
+                </div>
+                <div class="list" id="applications-list"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Profile ================= -->
+        <section class="panel" id="panel-profile" role="tabpanel">
+            <div class="card" style="max-width:680px">
+                <div class="card-title">
+                    <div>
+                        <h2>My profile</h2>
+                        <p>Companies see these details when you apply for a job.</p>
+                    </div>
+                </div>
+                <form class="form" id="profile-form" novalidate>
+                    <div class="form-group">
+                        <label for="p-full-name">Full name</label>
+                        <input type="text" id="p-full-name" name="full_name" autocomplete="name" required>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="p-email">Email address</label>
+                            <input type="email" id="p-email" name="email" autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="p-phone">Phone number</label>
+                            <input type="tel" id="p-phone" name="phone" autocomplete="tel">
+                        </div>
+                    </div>
+                    <p class="hint">Keep at least one contact method: email or phone number.</p>
+                    <div class="form-group">
+                        <label for="p-location">Location <span class="field-hint">(optional)</span></label>
+                        <input type="text" id="p-location" name="location" placeholder="e.g. Tembisa, Gauteng">
+                    </div>
+                    <div class="form-group">
+                        <label for="p-portfolio">Portfolio or LinkedIn link <span class="field-hint">(optional)</span></label>
+                        <input type="url" id="p-portfolio" name="portfolio_url" placeholder="https://">
+                    </div>
+                    <div class="form-group">
+                        <label for="p-bio">About me <span class="field-hint">(optional)</span></label>
+                        <textarea id="p-bio" name="bio" rows="4" placeholder="A few lines about your experience and the work you want."></textarea>
+                    </div>
+                    <div class="notice error" id="profile-error" role="alert"></div>
+                    <button class="btn" type="submit">Save profile</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="skill-modal" role="dialog" aria-modal="true" aria-labelledby="skill-modal-title">
+        <div class="modal-box">
+            <button class="modal-close" type="button" aria-label="Close">×</button>
+            <div id="skill-modal-body"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="job-modal" role="dialog" aria-modal="true" aria-labelledby="job-modal-title">
+        <div class="modal-box">
+            <button class="modal-close" type="button" aria-label="Close">×</button>
+            <div id="job-modal-body"></div>
+        </div>
+    </div>
+
+    <footer class="footer">OpenLane · Connecting people with opportunities</footer>
+    <script src="/js/app.js"></script>
+    <script src="/js/jobs-shared.js"></script>
+    <script src="/js/job-seeker-dashboard.js"></script>
+</body>
+</html>

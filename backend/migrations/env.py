@@ -17,7 +17,7 @@ load_dotenv(PROJECT_ROOT/".env")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL is missing fromt eh project .env file.")
+    raise RuntimeError("DATABASE_URL is missing from the project .env file.")
 
 
 # this is the Alembic Config object, which provides
@@ -34,17 +34,8 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from app.db.base import Base
-from backend.app.models import job_seeker
-from backend.app.models import companies
-from backend.app.models import business
-from backend.app.models import applications
-from backend.app.models import course
-from backend.app.models import job_seeker
-from backend.app.models import job_seeker_skill
-from backend.app.models import job_seeker_profile 
-from backend.app.models import learning_progress
-from backend.app.models import skill
-from backend.app.models import job
+# Importing the models package registers every table on Base.metadata
+import app.models
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

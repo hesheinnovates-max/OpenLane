@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
     const forms = document.querySelectorAll("form");
+    const query = new URLSearchParams(window.location.search);
+
+    // Fill fields from the link, e.g. /password-reset?detail=me@mail.com&type=company
+    document.querySelectorAll("[data-prefill]").forEach(field => {
+        const value = query.get(field.dataset.prefill);
+        if (value) field.value = value.replace(/-/g, "_") === "job_seeker" ? "job_seeker" : value;
+    });
+
+    // Keep the email / account type when moving between the reset pages
+    document.querySelectorAll("[data-keep-query]").forEach(link => {
+        if (window.location.search) link.href = link.getAttribute("href") + window.location.search;
+    });
+
+    // "Back to log in" goes to the right login page for the account type
+    document.querySelectorAll("[data-back-to-login]").forEach(link => {
+        const type = query.get("type");
+        if (type === "company") link.href = "/company/login";
+        else if (type) link.href = "/job-seeker/login";
+    });
 
     function passwordRequirements(value) {
         return {
@@ -66,8 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
     forms.forEach(form => {
         const password = form.querySelector("[data-password-field]");
         const confirmation = form.querySelector("[data-confirm-password]");
-        const errorBox = form.querySelector("#form-error");
-        const message = form.querySelector("#form-message");
+        // The error box sits just above the form on the auth pages
+        const errorBox = form.querySelector("#form-error") || document.getElementById("form-error");
+        const message = form.querySelector("#form-message") || document.getElementById("form-message");
         const submitButton = form.querySelector('button[type="submit"]');
 
         if (password) {
@@ -138,15 +158,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     const detail = typeof result.detail === "string" ? result.detail : "Request failed. Please check your details and try again.";
                     showMessage(message, detail, "error");
                 } else {
-                    showMessage(message, result.message || "Request completed successfully.", "success");
+                    const isLogin = result.message === "Success" && result.redirect;
+                    showMessage(message, isLogin ? "Logged in. Taking you to your dashboard..." : (result.message || "Request completed successfully."), "success");
                     if (!form.hasAttribute("data-reset-password")) form.reset();
                     if (password) validatePasswordForm(form);
+
+                    // Go to the next page (dashboard, login or reset page) after the user can read the message
+                    if (result.redirect) {
+                        // Leave more time when the development reset code is shown on screen
+                        const delay = isLogin ? 400 : (String(result.message).includes("code:") ? 6000 : 2500);
+                        if (submitButton) submitButton.dataset.redirecting = "true";
+                        setTimeout(() => { window.location.href = result.redirect; }, delay);
+                    }
                 }
             } catch (error) {
                 console.error("OpenLane form submission failed:", error);
                 showMessage(message, error.message || "Could not contact the server. Please try again.", "error");
             } finally {
-                if (submitButton) {
+                if (submitButton && submitButton.dataset.redirecting !== "true") {
                     submitButton.disabled = false;
                     submitButton.textContent = submitButton.dataset.originalText || "Submit";
                 }

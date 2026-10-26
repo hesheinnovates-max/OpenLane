@@ -25,9 +25,8 @@
                 Log in to manage your company and its opportunities.
             </p>
 
-            <form class="form"
-                  action="/company/login"
-                  method="POST">
+            <div class="notice error" id="form-error" role="alert"></div>
+            <form class="form" action="/company/login" method="POST" data-ajax-submit>
                 <div class="form-group">
                     <label for="identifier">Email or phone number</label>
                     <input
@@ -39,18 +38,26 @@
                         required
                     >
                 </div>
+                 <div class="password-label-row">
+                    <label for="password">Password</label>
 
+                    <a href="/forgot-password?type=company" class="forgot-password-link">
+                        Forgot password? Reset it
+                    </a>
+                </div>
                 <div class="password-input-wrap">
                     <input
                         type="password"
                         id="password"
                         name="password"
+                        autocomplete="current-password"
                         placeholder="Enter password"
                         data-password-field
                         required
                     >
                     <button class="password-toggle" type="button" data-toggle-password="password" aria-label="Show password">Show</button>
                 </div>
+                <div id="form-message" role="alert" aria-live="polite"></div>
                 <button class="btn" type="submit">Log in as Company</button>
             </form>
 

@@ -20,20 +20,16 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
-    op.rename_table("users", "job_seekers")
-    op.drop_column("job_seekers", "role")
+    # The previous revision (b207b80184db) already renames the table.
+    # Only rename here if the old "users" table is still there, so a fresh
+    # database can run every migration from the start without failing.
+    inspector = sa.inspect(op.get_bind())
+    if inspector.has_table("users") and not inspector.has_table("job_seekers"):
+        op.rename_table("users", "job_seekers")
+        op.drop_column("job_seekers", "role")
 
 
 def downgrade() -> None:
     """Downgrade schema."""
-    op.add_column(
-        "job_seekers",
-        sa.Column(
-            "role",
-            sa.String(length=20),
-            nullable=False,
-            server_default="job_seeker",
-        ),
-    )
-    op.alter_column("job_seekers", "role", server_default=None)
-    op.rename_table("job_seekers", "users")
+    # Nothing to undo, b207b80184db handles the rename on downgrade.
+    pass

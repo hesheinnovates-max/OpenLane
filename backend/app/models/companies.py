@@ -9,5 +9,6 @@ class Company(Base):
     description = Column(Text,nullable=True)
     email = Column(String(255),nullable=False,unique = True)
     phone = Column(String(20),nullable=True)
+    alt_phone = Column(String(20),nullable=True)
     password_hash = Column(String(255),nullable=False)
     created_at = Column(DateTime(timezone=True),server_default=func.now(),nullable=False)

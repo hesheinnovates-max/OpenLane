@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company dashboard | OpenLane</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/company/dashboard" aria-label="OpenLane company dashboard">
+            <span class="logo">//</span>
+            <span>OpenLane</span>
+        </a>
+        <nav class="top-actions" aria-label="Account">
+            <span class="top-user" id="top-company-name">Company</span>
+            <a class="top-link" href="/jobs" target="_blank" rel="noopener">View jobs</a>
+            <a class="top-link" href="/logout">Log out</a>
+        </nav>
+    </header>
+
+    <main class="dash">
+        <div class="dash-header">
+            <div>
+                <p class="eyebrow">Company dashboard</p>
+                <h1 id="welcome">Welcome back</h1>
+                <p class="intro">Post opportunities, manage your listings and review applications.</p>
+            </div>
+            <button class="btn btn-inline" type="button" data-go="post" id="header-post-btn">+ Post a job</button>
+        </div>
+
+        <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+            <button class="tab" type="button" role="tab" data-tab="overview">Overview</button>
+            <button class="tab" type="button" role="tab" data-tab="jobs">Job listings <span class="tab-count" id="count-jobs">0</span></button>
+            <button class="tab" type="button" role="tab" data-tab="post" id="tab-post">Post a job</button>
+            <button class="tab" type="button" role="tab" data-tab="applications">Applications <span class="tab-count" id="count-pending">0</span></button>
+            <button class="tab" type="button" role="tab" data-tab="profile">Company profile</button>
+        </nav>
+
+        <!-- ================= Overview ================= -->
+        <section class="panel" id="panel-overview" role="tabpanel">
+            <div class="stats-grid" id="stats">
+                <div class="stat-card"><span class="stat-label">Total jobs</span><span class="stat-value" data-stat="jobs">–</span></div>
+                <div class="stat-card"><span class="stat-label">Published</span><span class="stat-value" data-stat="published">–</span></div>
+                <div class="stat-card"><span class="stat-label">Drafts</span><span class="stat-value" data-stat="draft">–</span></div>
+                <div class="stat-card"><span class="stat-label">Closed</span><span class="stat-value" data-stat="closed">–</span></div>
+                <div class="stat-card"><span class="stat-label">Applications</span><span class="stat-value" data-stat="applications">–</span></div>
+                <div class="stat-card highlight"><span class="stat-label">Waiting for review</span><span class="stat-value" data-stat="pending">–</span></div>
+            </div>
+
+            <div class="split">
+                <div class="card">
+                    <div class="card-title">
+                        <div>
+                            <h2>Latest applications</h2>
+                            <p>The newest people who applied to your jobs.</p>
+                        </div>
+                        <a href="#applications" data-go="applications" class="small">View all</a>
+                    </div>
+                    <div class="list" id="recent-applications"><div class="loading">Loading…</div></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <div>
+                            <h2>Getting started</h2>
+                            <p>Three steps to reach job seekers.</p>
+                        </div>
+                    </div>
+                    <div class="steps" id="getting-started"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= Jobs ================= -->
+        <section class="panel" id="panel-jobs" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2>Your job listings</h2>
+                        <p>Only published jobs are visible to job seekers.</p>
+                    </div>
+                    <button class="btn btn-small" type="button" data-go="post">+ New job</button>
+                </div>
+                <div class="filters">
+                    <input type="search" id="job-search" placeholder="Search your jobs" aria-label="Search your jobs">
+                    <select id="job-status-filter" aria-label="Filter by status">
+                        <option value="">All statuses</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <select id="job-business-filter" aria-label="Filter by business">
+                        <option value="">All businesses</option>
+                    </select>
+                </div>
+                <div class="list" id="jobs-list"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Post / edit a job ================= -->
+        <section class="panel" id="panel-post" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2 id="job-form-title">Post a new job</h2>
+                        <p id="job-form-subtitle">Describe the work and what a candidate needs. You can save it as a draft first.</p>
+                    </div>
+                </div>
+                <form class="form" id="job-form" novalidate>
+                    <input type="hidden" name="job_id" id="job_id">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label for="job-title">Job title</label>
+                            <input type="text" id="job-title" name="title" maxlength="255" placeholder="e.g. Junior Data Capturer" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-business">Business / branch</label>
+                            <select id="job-business" name="business_id"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-type">Job type</label>
+                            <select id="job-type" name="job_type">
+                                <option value="">Choose a type</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label for="job-location">Location</label>
+                            <input type="text" id="job-location" name="location" maxlength="255" placeholder="e.g. Soweto, Johannesburg or Remote">
+                        </div>
+                        <div class="form-group full">
+                            <label for="job-description">Work description</label>
+                            <textarea id="job-description" name="description" rows="5" placeholder="What will the person do day to day?" required></textarea>
+                        </div>
+                        <div class="form-group full">
+                            <label for="job-requirements">Requirements <span class="field-hint">— skills, experience, qualifications or availability. Put each on a new line.</span></label>
+                            <textarea id="job-requirements" name="requirements" rows="5" placeholder="Basic Excel&#10;Attention to detail&#10;Available Monday to Friday" required></textarea>
+                        </div>
+                    </div>
+                    <div class="notice error" id="job-form-error" role="alert"></div>
+                    <div class="form-actions">
+                        <button class="btn btn-inline" type="submit" data-status="published" id="job-publish-btn">Publish job</button>
+                        <button class="btn btn-inline btn-secondary" type="submit" data-status="draft" id="job-draft-btn">Save as draft</button>
+                        <button class="btn btn-inline btn-secondary" type="button" id="job-cancel-btn" hidden>Cancel editing</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= Applications ================= -->
+        <section class="panel" id="panel-applications" role="tabpanel">
+            <div class="card">
+                <div class="card-title">
+                    <div>
+                        <h2>Applications</h2>
+                        <p>Review applicants and update their status. Skill progress is tracked on OpenLane, it is not a certificate.</p>
+                    </div>
+                </div>
+                <div class="filters">
+                    <select id="app-job-filter" aria-label="Filter by job">
+                        <option value="">All jobs</option>
+                    </select>
+                    <select id="app-status-filter" aria-label="Filter by status">
+                        <option value="">All statuses</option>
+                    </select>
+                    <input type="search" id="app-search" placeholder="Search applicant" aria-label="Search applicant">
+                </div>
+                <div class="list" id="applications-list"><div class="loading">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- ================= Profile ================= -->
+        <section class="panel" id="panel-profile" role="tabpanel">
+            <div class="split">
+                <div class="card">
+                    <div class="card-title">
+                        <div>
+                            <h2>Company details</h2>
+                            <p>Job seekers use these details to contact you.</p>
+                        </div>
+                    </div>
+                    <form class="form" id="profile-form" novalidate>
+                        <div class="form-group">
+                            <label for="p-company-name">Company name</label>
+                            <input type="text" id="p-company-name" name="company_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="p-email">Email address</label>
+                            <input type="email" id="p-email" name="email" required>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="p-phone">Contact number</label>
+                                <input type="tel" id="p-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="p-alt-phone">Second number <span class="field-hint">(optional)</span></label>
+                                <input type="tel" id="p-alt-phone" name="alt_phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="p-description">About the company <span class="field-hint">(optional)</span></label>
+                            <textarea id="p-description" name="description" rows="4" placeholder="What does your company do?"></textarea>
+                        </div>
+                        <div class="notice error" id="profile-error" role="alert"></div>
+                        <button class="btn" type="submit">Save company details</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <div>
+                            <h2>Businesses &amp; branches</h2>
+                            <p>Group jobs under different parts of your company.</p>
+                        </div>
+                    </div>
+                    <div class="list" id="business-list"></div>
+                    <form class="form" id="business-form" novalidate>
+                        <input type="hidden" name="business_id" id="business_id">
+                        <div class="form-group">
+                            <label for="b-name" id="b-name-label">Add a business or branch</label>
+                            <input type="text" id="b-name" name="name" placeholder="e.g. Acme Soweto Branch" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="b-description">Description <span class="field-hint">(optional)</span></label>
+                            <input type="text" id="b-description" name="description" placeholder="Short description">
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-inline" type="submit" id="business-submit">Add business</button>
+                            <button class="btn btn-inline btn-secondary" type="button" id="business-cancel" hidden>Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Preview of how job seekers see a job -->
+    <div class="modal" id="job-modal" role="dialog" aria-modal="true" aria-labelledby="job-modal-title">
+        <div class="modal-box">
+            <button class="modal-close" type="button" aria-label="Close">×</button>
+            <div id="job-modal-body"></div>
+        </div>
+    </div>
+
+    <footer class="footer">OpenLane · Connecting people with opportunities</footer>
+    <script src="/js/app.js"></script>
+    <script src="/js/company-dashboard.js"></script>
+</body>
+</html>

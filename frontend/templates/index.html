@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Choose account type | OpenLane</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <meta name="theme-color" content="#0a7a4b">
+    <meta name="description" content="OpenLane helps you build digital skills, track your progress and find local work.">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icons/favicon-32.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="OpenLane">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <script src="/js/pwa.js" defer></script>
 </head>
 <body>
     <header class="topbar">
@@ -26,27 +36,80 @@
 
             <div class="role-grid">
                 <a class="role-card" href="/job-seeker/login">
-                    <span class="role-icon" aria-hidden="true">JS</span>
+                    <span class="role-icon seeker" aria-hidden="true">
+                        <svg viewBox="0 0 64 64" width="58" height="58">
+                            <defs>
+                                <linearGradient id="seeker-bg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#6ee7b7"/>
+                                    <stop offset="0.55" stop-color="#14a37a"/>
+                                    <stop offset="1" stop-color="#0a6b52"/>
+                                </linearGradient>
+                                <linearGradient id="seeker-gloss" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+                                    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="64" height="64" rx="16" fill="url(#seeker-bg)"/>
+                            <path d="M16 0h32a16 16 0 0 1 16 16v10c-12 5-52 5-64 0V16A16 16 0 0 1 16 0z" fill="url(#seeker-gloss)"/>
+                            <circle cx="27" cy="18" r="7" fill="#fff"/>
+                            <path d="M14.5 37c0-8 5.6-12 12.5-12s12.5 4 12.5 12z" fill="#fff" opacity="0.95"/>
+                            <path d="M15 40.5v-2.4a2.2 2.2 0 0 1 2.2-2.2h4a2.2 2.2 0 0 1 2.2 2.2v2.4" fill="none" stroke="#e9fff6" stroke-width="2.3"/>
+                            <rect x="8.5" y="40" width="21" height="14" rx="3" fill="#fff"/>
+                            <rect x="8.5" y="45" width="21" height="2" fill="#0a7a4b" opacity="0.35"/>
+                            <circle cx="44" cy="40" r="7.5" fill="#ffffff" fill-opacity="0.28" stroke="#fff" stroke-width="3.4"/>
+                            <path d="M49.5 45.5l5.5 5.5" stroke="#fff" stroke-width="4.4" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                     <strong>I’m a Job Seeker</strong>
                     <span>
                         Find local work, explore opportunities, and build skills
                         for your next step.
                     </span>
+                    <span class="role-arrow" aria-hidden="true">›</span>
                 </a>
 
                 <a class="role-card" href="/company/login">
-                    <span class="role-icon" aria-hidden="true">CO</span>
+                    <span class="role-icon company" aria-hidden="true">
+                        <svg viewBox="0 0 64 64" width="58" height="58">
+                            <defs>
+                                <linearGradient id="company-bg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#fde68a"/>
+                                    <stop offset="0.55" stop-color="#f5b335"/>
+                                    <stop offset="1" stop-color="#d97706"/>
+                                </linearGradient>
+                                <linearGradient id="company-gloss" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+                                    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="64" height="64" rx="16" fill="url(#company-bg)"/>
+                            <path d="M16 0h32a16 16 0 0 1 16 16v10c-12 5-52 5-64 0V16A16 16 0 0 1 16 0z" fill="url(#company-gloss)"/>
+                            <rect x="15" y="13" width="34" height="39" rx="3.5" fill="#fff"/>
+                            <circle cx="32" cy="20.5" r="3.6" fill="#d97706"/>
+                            <path d="M25.8 29c0-3.6 2.8-5.4 6.2-5.4s6.2 1.8 6.2 5.4z" fill="#d97706"/>
+                            <rect x="19.5" y="32" width="6" height="5" rx="1" fill="#f59e0b"/>
+                            <rect x="29" y="32" width="6" height="5" rx="1" fill="#f59e0b"/>
+                            <rect x="38.5" y="32" width="6" height="5" rx="1" fill="#f59e0b"/>
+                            <rect x="19.5" y="40" width="6" height="5" rx="1" fill="#f59e0b"/>
+                            <rect x="38.5" y="40" width="6" height="5" rx="1" fill="#f59e0b"/>
+                            <rect x="28.5" y="41" width="7" height="11" rx="1.2" fill="#d97706"/>
+                            <rect x="11" y="51" width="42" height="3.5" rx="1.75" fill="#fff"/>
+                        </svg>
+                    </span>
                     <strong>I represent a Company</strong>
                     <span>
                         Share opportunities, find workers, and manage your
                         company’s hiring activity.
                     </span>
+                    <span class="role-arrow" aria-hidden="true">›</span>
                 </a>
             </div>
 
             <p class="hint">
                 Choose the account type that matches what you want to do on OpenLane.
             </p>
+
+            <button class="btn btn-secondary install-cta" type="button" data-install-app hidden>📲 Install the OpenLane app on your phone</button>
 
             <p class="link-row">
                 Just looking? <a href="/jobs">Browse open jobs without an account →</a>

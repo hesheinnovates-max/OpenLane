@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>You're offline | OpenLane</title>
+    <meta name="theme-color" content="#0a7a4b">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/icons/favicon-32.png" type="image/png">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="OpenLane home">
+            <span class="logo">//</span>
+            <span>OpenLane</span>
+        </a>
+    </header>
+    <main>
+        <section class="auth-card" style="text-align:center">
+            <p class="eyebrow">No connection</p>
+            <h1>You're offline</h1>
+            <p class="intro">OpenLane needs the internet to load your skills, jobs and applications. Check your data or Wi-Fi and try again. Nothing you saved has been lost.</p>
+            <button class="btn" type="button" onclick="window.location.reload()">Try again</button>
+        </section>
+    </main>
+    <footer class="footer">OpenLane · Connecting people with opportunities</footer>
+    <script>
+        // Reload by itself as soon as the connection comes back
+        window.addEventListener("online", () => window.location.reload());
+    </script>
+</body>
+</html>

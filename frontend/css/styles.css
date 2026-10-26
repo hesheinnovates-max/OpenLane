@@ -130,8 +130,9 @@ h1 {
 }
 
 .role-card {
+    position: relative;
     display: block;
-    padding: 22px;
+    padding: 22px 46px 22px 22px;
     border: 1.5px solid var(--line);
     border-radius: 15px;
     color: var(--ink);
@@ -153,14 +154,33 @@ h1 {
 .role-icon {
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
+    width: 58px;
+    height: 58px;
     margin-bottom: 18px;
-    border-radius: 12px;
+    border-radius: 16px;
+}
+
+.role-icon svg { display: block; }
+
+/* Soft coloured shadow under the glossy icon tiles */
+.role-icon.seeker { box-shadow: 0 10px 20px -8px rgba(10, 122, 75, 0.55); }
+.role-icon.company { box-shadow: 0 10px 20px -8px rgba(217, 119, 6, 0.55); }
+
+.role-arrow {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    color: #94a3b8;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1;
+    transform: translateY(-50%);
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.role-card:hover .role-arrow {
     color: var(--green);
-    background: #eaf5ee;
-    font-size: 20px;
-    font-weight: 800;
+    transform: translate(3px, -50%);
 }
 
 .role-card strong {
@@ -169,7 +189,7 @@ h1 {
     font-size: 17px;
 }
 
-.role-card span {
+.role-card > span:not(.role-icon):not(.role-arrow) {
     display: block;
     color: var(--muted);
     font-size: 13px;
@@ -303,7 +323,7 @@ input::placeholder {
     }
 
     .role-card {
-        padding: 19px;
+        padding: 19px 42px 19px 19px;
     }
 }
 
@@ -1117,4 +1137,21 @@ table.simple th { color: var(--muted); font-size: 12px; font-weight: 700; text-t
 @media (prefers-reduced-motion: reduce) {
     .panel.active, .modal.open { animation: none; }
     .progress-fill, .toast { transition: none; }
+}
+
+
+/* =========================================================
+   Installable app (PWA)
+   ========================================================= */
+
+[hidden] { display: none !important; }
+
+.install-cta { margin-top: 16px; }
+
+/* When opened from the Home Screen there is no browser bar , keep content clear of the notch */
+@media (display-mode: standalone) {
+    body {
+        padding-top: max(22px, env(safe-area-inset-top));
+        padding-bottom: max(22px, env(safe-area-inset-bottom));
+    }
 }

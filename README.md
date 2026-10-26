@@ -64,6 +64,22 @@ Never upload `.env`. It is in `.gitignore`. Put the values in Render's **Environ
 Render's free plan blocks SMTP ports (so Gmail SMTP will not work there). That is why the
 Brevo API, which uses HTTPS, is used for email in production.
 
+## Install as an app (PWA)
+
+OpenLane is a Progressive Web App:
+- **Android (Chrome / Samsung Internet):** open the site, then tap **Install app** (or the browser menu → *Install app*).
+- **iPhone (Safari):** tap **Install app**, then follow the steps: Share → *Add to Home Screen*.
+
+Files: `frontend/pwa/manifest.webmanifest`, `frontend/pwa/sw.js` (served at `/sw.js`),
+`frontend/js/pwa.js`, `frontend/icons/`, `frontend/templates/offline.html`.
+The service worker never caches `/api/` data. Bump `VERSION` in `sw.js` when you change it.
+
+### Google Play (later)
+Package the live site with pwabuilder.com (Android). PWABuilder gives you a package name and a
+SHA-256 signing fingerprint. Add them on Render as `ANDROID_PACKAGE_NAME` and
+`ANDROID_SHA256_FINGERPRINTS`; the app then serves `/.well-known/assetlinks.json` automatically,
+which removes the browser bar inside the Play Store app.
+
 ## Password reset
 
 `/forgot-password` creates a 6-digit code (only its hash is stored). It is valid for 5 minutes

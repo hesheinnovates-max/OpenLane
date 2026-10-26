@@ -1,8 +1,9 @@
+import os
 from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI , Depends , Request
-from fastapi.responses import HTMLResponse , JSONResponse , RedirectResponse
+from fastapi.responses import HTMLResponse , JSONResponse , RedirectResponse , FileResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
@@ -52,9 +53,12 @@ app.include_router(jobs.router)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSS_DIR = PROJECT_ROOT/"frontend"/'css'
 JS_DIR = PROJECT_ROOT/"frontend"/'js'
+ICONS_DIR = PROJECT_ROOT/"frontend"/'icons'
+PWA_DIR = PROJECT_ROOT/"frontend"/'pwa'
 
 app.mount("/css",StaticFiles(directory=CSS_DIR),name="css")
 app.mount("/js",StaticFiles(directory=JS_DIR),name="js")
+app.mount("/icons",StaticFiles(directory=ICONS_DIR),name="icons")
 
 PAGE = PROJECT_ROOT/"frontend"/'templates'
 
@@ -92,6 +96,40 @@ def root(request : Request):
     if session and session["role"] == ROLE_JOB_SEEKER:
         return RedirectResponse("/job-seeker/dashboard",status_code=303)
     return (PAGE/"index.html").read_text(encoding="utf-8")
+
+# --------- App (PWA) files ------------
+# These must be served from the root of the site so the app covers every page
+
+@app.get("/manifest.webmanifest",include_in_schema=False)
+def manifest():
+    return FileResponse(PWA_DIR/"manifest.webmanifest",media_type="application/manifest+json")
+
+@app.get("/sw.js",include_in_schema=False)
+def service_worker():
+    # no-cache so phones pick up a new service worker straight after a deploy
+    return FileResponse(PWA_DIR/"sw.js",media_type="application/javascript",headers={"Cache-Control":"no-cache","Service-Worker-Allowed":"/"})
+
+@app.get("/offline",response_class=HTMLResponse,include_in_schema=False)
+def offline():
+    return (PAGE/"offline.html").read_text(encoding="utf-8")
+
+@app.get("/favicon.ico",include_in_schema=False)
+def favicon():
+    return FileResponse(ICONS_DIR/"favicon.ico",media_type="image/x-icon")
+
+@app.get("/.well-known/assetlinks.json",include_in_schema=False)
+def asset_links():
+    # Proves to Google Play that the Android app and this website belong together.
+    # Set ANDROID_PACKAGE_NAME and ANDROID_SHA256_FINGERPRINTS (comma separated) on Render
+    # with the values PWABuilder / Play Console give you.
+    package = os.getenv("ANDROID_PACKAGE_NAME","").strip()
+    fingerprints = [f.strip() for f in os.getenv("ANDROID_SHA256_FINGERPRINTS","").split(",") if f.strip()]
+    if not package or not fingerprints:
+        return JSONResponse([])
+    return JSONResponse([{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {"namespace": "android_app","package_name": package,"sha256_cert_fingerprints": fingerprints},
+    }])
 
 @app.get("/db-check",response_class=JSONResponse)
 def db_check(db:Session = Depends(get_db)):

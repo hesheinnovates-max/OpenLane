@@ -1,0 +1,41 @@
+{
+    "id": "/",
+    "name": "OpenLane",
+    "short_name": "OpenLane",
+    "description": "Build digital skills, track your progress and find local work. Companies post jobs and review applications.",
+    "start_url": "/?source=app",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#f8fafc",
+    "theme_color": "#0a7a4b",
+    "lang": "en-ZA",
+    "dir": "ltr",
+    "categories": ["business", "education", "productivity"],
+    "icons": [
+        { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+        { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    ],
+    "shortcuts": [
+        {
+            "name": "Browse jobs",
+            "short_name": "Jobs",
+            "url": "/jobs?source=app",
+            "icons": [{ "src": "/icons/shortcut-jobs.png", "sizes": "96x96", "type": "image/png" }]
+        },
+        {
+            "name": "Job Seeker dashboard",
+            "short_name": "My learning",
+            "url": "/job-seeker/dashboard",
+            "icons": [{ "src": "/icons/shortcut-jobs.png", "sizes": "96x96", "type": "image/png" }]
+        },
+        {
+            "name": "Company dashboard",
+            "short_name": "Company",
+            "url": "/company/dashboard",
+            "icons": [{ "src": "/icons/shortcut-jobs.png", "sizes": "96x96", "type": "image/png" }]
+        }
+    ]
+}
